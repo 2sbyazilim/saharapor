@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Günlük Saha Raporu</title>
     <!-- Tailwind CSS CDN -->
+     <script>window.onerror = function (msg, url, line, col, error) {
+        alert(
+            "HATA:\n\n" +
+            msg +
+            "\nSatır: " + line +
+            "\nDosya: " + url
+        );
+    };</script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -102,17 +110,6 @@
                 size: A4 portrait;
                 margin: 8mm;
             }
-        }
-
-        /* Genel Notlar (contenteditable) placeholder */
-        .notes-editable:empty:before {
-            content: attr(data-placeholder);
-            color: #9ca3af;
-            font-weight: 500;
-        }
-
-        .notes-editable:focus {
-            outline: none;
         }
 
         /* Custom Scrollbars */
@@ -225,7 +222,7 @@
     </div>
 
     <!-- Top Navigation Header -->
-    <header class="no-print bg-gradient-to-r from-slate-900 via-slate-900 to-slate-800 text-white shadow-md sticky top-0 z-40 border-b border-slate-800">
+    <header class="no-print bg-slate-900 text-white shadow-md sticky top-0 z-40 border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between py-3 md:h-16 gap-3">
                 <!-- App Title & Logo -->
@@ -422,19 +419,9 @@
                             class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1 flex items-center justify-between">
-                            <span>Hava Durumu <span class="text-gray-400 font-normal">(Sincan, Ankara)</span></span>
-                        </label>
-                        <div class="relative">
-                            <input type="text" id="input-weather" onchange="updateReportData()"
-                                placeholder="Otomatik doldurmak için ikona tıklayın"
-                                class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 pr-9 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
-                            <button type="button" onclick="autoFillWeather()" id="weather-autofill-btn"
-                                title="Sincan, Ankara için öğlen sıcaklığını otomatik getir"
-                                class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-emerald-600 hover:text-emerald-800 transition">
-                                <i class="fa-solid fa-cloud-sun"></i>
-                            </button>
-                        </div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Hava Durumu</label>
+                        <input type="text" id="input-weather" onchange="updateReportData()"
+                            class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Vardiya Saatleri</label>
@@ -578,34 +565,9 @@
                     </h2>
                 </div>
                 <div class="p-4 sm:p-5">
-                    <div class="admin-only-nav flex items-center gap-1.5 mb-2 pb-2 border-b border-gray-200 flex-wrap">
-                        <span class="text-[10px] font-semibold text-gray-500 mr-1">Biçim (Yönetici):</span>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('bold')"
-                            class="w-7 h-7 flex items-center justify-center rounded border border-gray-300 bg-white hover:bg-gray-100 text-xs font-bold text-gray-700 transition"
-                            title="Kalın">
-                            <i class="fa-solid fa-bold"></i>
-                        </button>
-                        <span class="w-px h-5 bg-gray-300 mx-1"></span>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('foreColor', '#dc2626')"
-                            class="w-6 h-6 rounded-full border border-gray-300 hover:scale-110 transition" style="background:#dc2626" title="Kırmızı"></button>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('foreColor', '#d97706')"
-                            class="w-6 h-6 rounded-full border border-gray-300 hover:scale-110 transition" style="background:#d97706" title="Turuncu"></button>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('foreColor', '#16a34a')"
-                            class="w-6 h-6 rounded-full border border-gray-300 hover:scale-110 transition" style="background:#16a34a" title="Yeşil"></button>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('foreColor', '#2563eb')"
-                            class="w-6 h-6 rounded-full border border-gray-300 hover:scale-110 transition" style="background:#2563eb" title="Mavi"></button>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('foreColor', '#000000')"
-                            class="w-6 h-6 rounded-full border border-gray-300 hover:scale-110 transition" style="background:#000000" title="Siyah"></button>
-                        <span class="w-px h-5 bg-gray-300 mx-1"></span>
-                        <button type="button" onmousedown="event.preventDefault()" onclick="formatNotes('removeFormat')"
-                            class="px-2 h-7 flex items-center justify-center rounded border border-gray-300 bg-white hover:bg-gray-100 text-[10px] font-semibold text-gray-600 transition"
-                            title="Biçimi Temizle">
-                            Temizle
-                        </button>
-                    </div>
-                    <div id="input-general-notes" contenteditable="true" oninput="updateReportData()"
-                        data-placeholder="Günlük şantiye aksamaları, İSG durumları, hava şartları etkisi veya özel notlarınızı yazınız..."
-                        class="notes-editable w-full min-h-[96px] bg-gray-50 border border-gray-300 rounded-lg text-xs p-3 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800 leading-relaxed"></div>
+                    <textarea id="input-general-notes" onchange="updateReportData()" rows="4"
+                        class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-3 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800 leading-relaxed"
+                        placeholder="Günlük şantiye aksamaları, İSG durumları, hava şartları etkisi veya özel notlarınızı yazınız..."></textarea>
                 </div>
             </div>
 
@@ -924,15 +886,15 @@
         const USERS = {
             "admin": {
                 username: "admin",
-                passwords: ["1234"],
-                name: "Admin Yetkilisi",
+                password: "1234",
+                name: "Yönetici (Admin)",
                 role: "admin"
             },
             "saha": {
                 username: "saha",
-                passwords: ["1234", "123"],
+                password: "1234",
                 name: "Saha Personeli",
-                role: "saha"
+                role: "entry_only"
             }
         };
 
@@ -1013,14 +975,14 @@
                 }
             }
 
-            prepareNewBlankEntry();
-
             const sessionUser = sessionStorage.getItem('shantiye_active_user');
             if (sessionUser && USERS[sessionUser]) {
-                loginUser(USERS[sessionUser], false);
+                loginUser(USERS[sessionUser]);
             } else {
                 document.getElementById('login-modal').classList.remove('hidden');
             }
+
+            prepareNewBlankEntry();
         };
 
         function handleLogin(event) {
@@ -1029,46 +991,67 @@
             const passwordInput = document.getElementById('login-password').value.trim();
             const errorDiv = document.getElementById('login-error');
 
-            const user = USERS[usernameInput];
-            const isValid = user && user.passwords.includes(passwordInput);
+            // Rollerize göre basit kimlik doğrulama kontrolü
+            if ((usernameInput === 'admin' && passwordInput === '1234') ||
+                (usernameInput === 'saha' && (passwordInput === '1234' || passwordInput === '123'))) {
 
-            if (isValid) {
+                currentUser = {
+                    username: usernameInput,
+                    name: usernameInput === "admin" ? "Admin Yetkilisi" : "Saha Personeli",
+                    role: usernameInput === "admin" ? "admin" : "saha"
+                };
+                isLoggedIn = true;
+
+                // Giriş modalını gizle
+                document.getElementById('login-modal').classList.add('hidden');
                 errorDiv.classList.add('hidden');
-                sessionStorage.setItem('shantiye_active_user', user.username);
-                loginUser(user, true);
+
+                // Rol görünümünü ayarla
+                if (usernameInput === 'admin') {
+                    document.getElementById('user-display-name').innerText = 'Admin Yetkilisi';
+                    document.getElementById('user-role-badge').innerText = 'YÖNETİCİ';
+                    // Admin öğelerini göster
+                    document.querySelectorAll('.admin-only-nav, .admin-only-btn').forEach(el => el.classList.remove('hidden'));
+                    document.getElementById('saha-mode-banner').classList.add('hidden');
+                    switchTab('form');
+                } else {
+                    document.getElementById('user-display-name').innerText = 'Saha Personeli';
+                    document.getElementById('user-role-badge').innerText = 'SAHA';
+                    // Admin öğelerini gizle, böylece sadece veri girişi görünür
+                    document.querySelectorAll('.admin-only-nav, .admin-only-btn').forEach(el => el.classList.add('hidden'));
+                    document.getElementById('saha-mode-banner').classList.remove('hidden');
+                    switchTab('form');
+
+                    // 👉 BURASI EKLENDİ: Saha kullanıcısı giriş yaptığında direkt "Yeni Tarih / Sayfa" modalını açar
+                    setTimeout(() => {
+                        createNewSheetModal();
+                    }, 200);
+                }
+                applyPermissions();
+                showToast('Başarıyla giriş yapıldı!', 'success');
             } else {
                 errorDiv.classList.remove('hidden');
             }
         }
 
-        function loginUser(userObj, isFreshLogin) {
+        function loginUser(userObj) {
             currentUser = userObj;
+            sessionStorage.setItem('shantiye_active_user', userObj.username);
             document.getElementById('login-modal').classList.add('hidden');
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
 
             document.getElementById('user-display-name').textContent = userObj.name;
             const roleBadge = document.getElementById('user-role-badge');
 
             if (userObj.role === 'admin') {
-                roleBadge.textContent = "YÖNETİCİ";
+                roleBadge.textContent = "Yönetici";
                 roleBadge.className = "text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded font-mono border border-amber-500/30";
             } else {
-                roleBadge.textContent = "SAHA";
+                roleBadge.textContent = "Saha Personeli";
                 roleBadge.className = "text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-mono border border-blue-500/30";
             }
 
             applyPermissions();
-
-            if (isFreshLogin) {
-                showToast(`Hoş geldiniz, ${userObj.name}!`, "success");
-                if (userObj.role !== 'admin') {
-                    // Saha kullanıcısı giriş yaptığında direkt "Yeni Tarih / Sayfa" modalını açar
-                    setTimeout(() => {
-                        createNewSheetModal();
-                    }, 200);
-                }
-            }
+            showToast(`Hoş geldiniz, ${userObj.name}!`, "success");
         }
 
         function handleLogout() {
@@ -1083,7 +1066,9 @@
         function applyPermissions() {
             if (!currentUser) return;
 
-            const isAdmin = currentUser.role === "admin";
+            const isAdmin =
+                currentUser === "admin" ||
+                currentUser?.role === "admin";
             const adminNavs = document.querySelectorAll('.admin-only-nav');
             const adminBtns = document.querySelectorAll('.admin-only-btn');
             const sahaBanner = document.getElementById('saha-mode-banner');
@@ -1139,7 +1124,7 @@
             const approvedByEl = document.getElementById('input-approved-by') || document.getElementById('input-consultant');
             if (approvedByEl) approvedByEl.value = data.consultant || data.approvedBy || '';
 
-            document.getElementById('input-general-notes').innerHTML = data.generalNotes || '';
+            document.getElementById('input-general-notes').value = data.generalNotes || '';
 
             renderTechPersonnelFormRows();
             renderFieldPersonnelFormRows();
@@ -1164,7 +1149,7 @@
             const approvedByEl = document.getElementById('input-approved-by') || document.getElementById('input-consultant');
             if (approvedByEl) data.consultant = approvedByEl.value;
 
-            data.generalNotes = document.getElementById('input-general-notes').innerHTML;
+            data.generalNotes = document.getElementById('input-general-notes').value;
 
             document.getElementById('header-date-badge').textContent = `Ekip: ${data.sheetEkip || 'Genel Ekip'} | Tarih: ${data.sheetTitle || ''} - ${data.date || ''}`;
         }
@@ -1230,9 +1215,6 @@
             }
             currentActiveKey = tempKey;
             loadSheetData(currentActiveKey);
-            if (!store[tempKey].weather) {
-                autoFillWeather();
-            }
         }
 
         function saveCurrentSheetData() {
@@ -1514,7 +1496,7 @@
                 previewWorksTbody.appendChild(tr);
             });
 
-            document.getElementById('preview-notes-content').innerHTML = data.generalNotes || 'Herhangi bir özel not girilmedi.';
+            document.getElementById('preview-notes-content').textContent = data.generalNotes || 'Herhangi bir özel not girilmedi.';
         }
 
         function renderHistoryView() {
@@ -1777,7 +1759,7 @@
     </tr>
     <tr>
         <td colspan="7" style="height:50px; vertical-align:top; background-color:#ffffff; padding:8px;">
-            ${data.generalNotes || 'Herhangi bir özel not girilmedi.'}
+            ${escapeHtml(data.generalNotes || 'Herhangi bir özel not girilmedi.')}
         </td>
     </tr>
 </table>
@@ -1860,7 +1842,6 @@
             closeNewSheetModal();
             switchTab('form');
             showToast(`Yeni sayfa (${nameInput}) oluşturuldu!`, "success");
-            autoFillWeather();
         }
 
         function showToast(message, type = "info") {
@@ -1884,107 +1865,6 @@
                 toast.classList.add('opacity-0');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
-        }
-
-        // ---- Genel Notlar zengin metin biçimlendirme (sadece Yönetici) ----
-        function formatNotes(command, value) {
-            if (currentUser && currentUser.role !== 'admin') return;
-            const editor = document.getElementById('input-general-notes');
-            if (!editor) return;
-            editor.focus();
-            document.execCommand(command, false, value || null);
-            updateReportData();
-        }
-
-        // ---- Otomatik Hava Durumu (Sincan, Ankara - saat 12:00) ----
-        const SINCAN_LAT = 39.9687;
-        const SINCAN_LON = 32.5747;
-
-        const WEATHER_CODE_TR = {
-            0: "Açık", 1: "Az Bulutlu", 2: "Parçalı Bulutlu", 3: "Kapalı",
-            45: "Sisli", 48: "Kırağı Sisi",
-            51: "Hafif Çisenti", 53: "Çisenti", 55: "Yoğun Çisenti",
-            56: "Dondurucu Çisenti", 57: "Yoğun Dondurucu Çisenti",
-            61: "Hafif Yağmurlu", 63: "Yağmurlu", 65: "Kuvvetli Yağmurlu",
-            66: "Dondurucu Yağmur", 67: "Kuvvetli Dondurucu Yağmur",
-            71: "Hafif Kar Yağışlı", 73: "Kar Yağışlı", 75: "Kuvvetli Kar Yağışlı", 77: "Kar Taneli",
-            80: "Hafif Sağanak", 81: "Sağanak Yağışlı", 82: "Şiddetli Sağanak",
-            85: "Hafif Kar Sağanağı", 86: "Kuvvetli Kar Sağanağı",
-            95: "Gök Gürültülü Fırtına", 96: "Dolulu Fırtına", 99: "Şiddetli Dolulu Fırtına"
-        };
-
-        function weatherCodeToText(code) {
-            return WEATHER_CODE_TR[code] || "Değişken";
-        }
-
-        // "13.08.2026" veya "13.8.2026" formatındaki tarihi Date nesnesine çevirir
-        function parseTRDate(str) {
-            if (!str) return null;
-            const parts = str.trim().split('.');
-            if (parts.length !== 3) return null;
-            const d = parseInt(parts[0], 10);
-            const m = parseInt(parts[1], 10);
-            const y = parseInt(parts[2], 10);
-            if (!d || !m || !y) return null;
-            const dt = new Date(y, m - 1, d, 12, 0, 0);
-            return isNaN(dt.getTime()) ? null : dt;
-        }
-
-        function toISODate(date) {
-            const y = date.getFullYear();
-            const m = String(date.getMonth() + 1).padStart(2, '0');
-            const d = String(date.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-        }
-
-        async function autoFillWeather() {
-            const weatherInput = document.getElementById('input-weather');
-            const btn = document.getElementById('weather-autofill-btn');
-            if (!weatherInput) return;
-
-            const dateInput = document.getElementById('input-date').value.trim();
-            const targetDate = parseTRDate(dateInput) || new Date();
-            const isoDate = toISODate(targetDate);
-
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const compareDate = new Date(targetDate);
-            compareDate.setHours(0, 0, 0, 0);
-            const diffDays = Math.round((compareDate - today) / 86400000);
-
-            // Open-Meteo tahmin servisi ~92 gün öncesi ile ~16 gün sonrasını kapsar;
-            // bunun dışındaki (geçmiş) tarihler için arşiv servisi kullanılır.
-            const useForecast = diffDays >= -92 && diffDays <= 16;
-            const base = useForecast
-                ? "https://api.open-meteo.com/v1/forecast"
-                : "https://archive-api.open-meteo.com/v1/archive";
-            const url = `${base}?latitude=${SINCAN_LAT}&longitude=${SINCAN_LON}` +
-                `&hourly=temperature_2m,weathercode&timezone=Europe%2FIstanbul` +
-                `&start_date=${isoDate}&end_date=${isoDate}`;
-
-            if (btn) btn.classList.add('animate-spin');
-            try {
-                const resp = await fetch(url);
-                if (!resp.ok) throw new Error("Servis yanıt vermedi");
-                const json = await resp.json();
-                const hours = json.hourly && json.hourly.time ? json.hourly.time : [];
-                let idx = hours.findIndex(t => t === `${isoDate}T12:00`);
-                if (idx === -1) idx = 12;
-
-                const temp = json.hourly && json.hourly.temperature_2m ? json.hourly.temperature_2m[idx] : undefined;
-                const code = json.hourly && json.hourly.weathercode ? json.hourly.weathercode[idx] : undefined;
-
-                if (temp === undefined || temp === null) throw new Error("Veri bulunamadı");
-
-                weatherInput.value = `${weatherCodeToText(code)}, ${Math.round(temp)}°C (Sincan, Ankara)`;
-                updateReportData();
-                showToast("Hava durumu otomatik dolduruldu", "success");
-            } catch (err) {
-                console.warn("Hava durumu otomatik alınamadı:", err);
-                showToast("Hava durumu otomatik alınamadı, lütfen elle giriniz", "error");
-            } finally {
-                if (btn) btn.classList.remove('animate-spin');
-            }
         }
 
         function escapeHtml(str) {
