@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" id="html-root">
 
 <head>
     <meta charset="UTF-8">
@@ -104,6 +104,30 @@
                 padding: 0 !important;
                 width: 100% !important;
                 max-width: 100% !important;
+                overflow: visible !important;
+            }
+
+            .excel-card [class*="min-w-"] {
+                min-width: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .excel-card table {
+                width: 100% !important;
+                table-layout: fixed !important;
+            }
+
+            #preview-photo-grid {
+                display: block !important;
+            }
+
+            #preview-photo-grid img {
+                display: inline-block !important;
+                width: 48% !important;
+                height: auto !important;
+                max-height: 220px !important;
+                margin: 1% !important;
             }
 
             @page {
@@ -164,6 +188,217 @@
         .site-footer .brand-link:hover .brand-name {
             background-position: 0 0;
         }
+
+        /* ===== Section Header Glassmorphism ===== */
+        .section-header {
+            position: relative;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.88) 55%, rgba(6, 78, 59, 0.85) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px -4px rgba(15, 23, 42, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .section-icon-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 9px;
+            background: linear-gradient(145deg, #10b981, #047857);
+            box-shadow: 0 3px 8px -1px rgba(16, 185, 129, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.25), inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .excel-card-shadow {
+            box-shadow: 0 10px 25px -8px rgba(30, 41, 59, 0.15), 0 4px 10px -4px rgba(30, 41, 59, 0.08);
+            transition: box-shadow 0.25s ease, transform 0.25s ease;
+        }
+
+        .excel-card-shadow:hover {
+            box-shadow: 0 16px 32px -10px rgba(30, 41, 59, 0.2), 0 6px 14px -4px rgba(30, 41, 59, 0.1);
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -8px rgba(15, 23, 42, 0.18);
+        }
+
+        .stat-card .stat-icon-wrap {
+            transition: transform 0.25s ease;
+        }
+
+        .stat-card:hover .stat-icon-wrap {
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        /* Button press effect */
+        .btn-press {
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+        }
+
+        .btn-press:active {
+            transform: scale(0.95);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ===== Dark Mode ===== */
+        html.dark body {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        html.dark .bg-white {
+            background-color: #1e293b !important;
+        }
+
+        html.dark .bg-gray-50 {
+            background-color: #0f172a !important;
+        }
+
+        html.dark .bg-gray-100 {
+            background-color: #1e293b !important;
+        }
+
+        html.dark .border-gray-200,
+        html.dark .border-gray-300 {
+            border-color: #334155 !important;
+        }
+
+        html.dark .text-gray-900 {
+            color: #f1f5f9 !important;
+        }
+
+        html.dark .text-gray-800,
+        html.dark .text-gray-700 {
+            color: #e2e8f0 !important;
+        }
+
+        html.dark .text-gray-600,
+        html.dark .text-gray-500 {
+            color: #94a3b8 !important;
+        }
+
+        html.dark .text-gray-400 {
+            color: #64748b !important;
+        }
+
+        html.dark input,
+        html.dark select,
+        html.dark textarea {
+            background-color: #0f172a !important;
+            color: #e2e8f0 !important;
+            border-color: #334155 !important;
+        }
+
+        html.dark .excel-table th {
+            background-color: #1e293b !important;
+            color: #cbd5e1 !important;
+        }
+
+        html.dark .excel-table td {
+            border-color: #334155 !important;
+            color: #1f2937;
+            /* keep excel preview readable/printable - stays light on purpose */
+        }
+
+        html.dark #action-toolbar {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+
+        html.dark .divide-gray-200>* {
+            border-color: #334155 !important;
+        }
+
+        html.dark #view-preview .excel-card {
+            background-color: #ffffff !important;
+            color: #1f2937 !important;
+        }
+
+        html.dark #view-preview .excel-card .text-gray-900,
+        html.dark #view-preview .excel-card .text-gray-800,
+        html.dark #view-preview .excel-card .text-gray-700,
+        html.dark #view-preview .excel-card .text-gray-600,
+        html.dark #view-preview .excel-card .text-gray-500,
+        html.dark #view-preview .excel-card .text-gray-400 {
+            color: #1f2937 !important;
+        }
+
+        html.dark #view-preview .excel-card .bg-white {
+            background-color: #ffffff !important;
+        }
+
+        html.dark #view-preview .excel-card .bg-gray-50,
+        html.dark #view-preview .excel-card .bg-gray-100 {
+            background-color: #f9fafb !important;
+        }
+
+        html.dark #view-preview .excel-card .bg-gray-200 {
+            background-color: #e5e7eb !important;
+        }
+
+        html.dark #view-preview .excel-card .border-gray-800 {
+            border-color: #1f2937 !important;
+        }
+
+        html.dark #view-preview .excel-card .border-gray-400,
+        html.dark #view-preview .excel-card .border-gray-300 {
+            border-color: #b0b0b0 !important;
+        }
+
+        /* Offline banner */
+        #offline-banner {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+            color: #fff;
+            font-weight: 600;
+            text-align: center;
+            padding: 6px 10px;
+            font-size: 12px;
+            letter-spacing: 0.2px;
+        }
+
+        /* Rich text toolbar */
+        .rt-toolbar-btn {
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            background: #fff;
+            color: #374151;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .rt-toolbar-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .rt-toolbar-btn.active {
+            background: #10b981;
+            color: #fff;
+            border-color: #10b981;
+        }
+
+        #input-general-notes-rich {
+            min-height: 96px;
+        }
+
+        #input-general-notes-rich:focus {
+            outline: none;
+        }
     </style>
 </head>
 
@@ -213,7 +448,7 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-excel-green hover:bg-excel-darkGreen text-white font-semibold py-2.5 rounded-xl text-xs shadow-md transition-all duration-200 flex items-center justify-center space-x-2">
+                    class="btn-press w-full bg-excel-green hover:bg-excel-darkGreen text-white font-semibold py-2.5 rounded-xl text-xs shadow-md transition-all duration-200 flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-right-to-bracket"></i>
                     <span>Giriş Yap</span>
                 </button>
@@ -249,6 +484,11 @@
 
                 <!-- Firebase Desktop -->
                 <div class="flex items-center space-x-2 w-full md:w-auto justify-between md:justify-end">
+                    <button id="dark-mode-toggle" onclick="toggleDarkMode()"
+                        class="btn-press flex items-center justify-center bg-slate-800 w-8 h-8 rounded-md border border-slate-700 hover:bg-slate-700 transition-colors"
+                        title="Karanlık / Aydınlık Mod">
+                        <i id="dark-mode-icon" class="fa-solid fa-moon text-slate-300 text-xs"></i>
+                    </button>
                     <div class="hidden md:flex items-center justify-center bg-slate-800 w-8 h-8 rounded-md border border-slate-700 cursor-help transition-colors"
                         title="Bulut Bağlantısı: Aranıyor...">
                         <div id="fb-status-dot"
@@ -296,11 +536,17 @@
     </header>
 
     <!-- Action Toolbar (PDF / Export / Quick Actions) -->
+    <!-- Offline Uyarı Bandı -->
+    <div id="offline-banner" class="no-print hidden">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Bağlantı yok, değişiklikler cihazda bekliyor. Bağlantı sağlanınca otomatik senkronize edilecektir.
+    </div>
+
     <div id="action-toolbar" class="no-print bg-white border-b border-gray-200 py-3 shadow-xs">
         <div
             class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-3">
             <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 w-full md:w-auto">
-                <button onclick="createNewSheetModal()"
+                <button btn-press onclick="createNewSheetModal()"
                     class="text-xs text-emerald-700 bg-emerald-50 hover:bg-emerald-100 font-medium px-2.5 py-2 rounded-md border border-emerald-200 transition flex items-center space-x-1">
                     <i class="fa-solid fa-plus text-xs"></i>
                     <span>Yeni Tarih / Sayfa</span>
@@ -309,17 +555,17 @@
 
             <!-- Admin Only Export Buttons -->
             <div class="admin-only-btn flex flex-wrap items-center justify-center gap-2 w-full md:w-auto">
-                <button onclick="exportToPDF()"
+                <button btn-press onclick="exportToPDF()"
                     class="flex-1 md:flex-none bg-red-600 hover:bg-red-700 text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
                     <i class="fa-solid fa-file-pdf"></i>
                     <span>PDF İndir</span>
                 </button>
-                <button onclick="exportToExcel()"
+                <button btn-press onclick="exportToExcel()"
                     class="flex-1 md:flex-none bg-excel-green hover:bg-excel-darkGreen text-white px-3.5 py-2 rounded-lg text-xs font-semibold flex items-center justify-center space-x-2 shadow-sm transition">
                     <i class="fa-solid fa-file-excel"></i>
                     <span>Excel (.xls) İndir</span>
                 </button>
-                <button onclick="resetToSampleData()"
+                <button btn-press onclick="resetToSampleData()"
                     class="bg-gray-100 hover:bg-gray-200 text-gray-700 p-2 rounded-lg text-xs font-medium border border-gray-300 transition"
                     title="Varsayılan Verileri Yükle">
                     <i class="fa-solid fa-rotate-right"></i>
@@ -348,8 +594,8 @@
             <!-- Quick Summary Cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div
-                    class="bg-white p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-                    <div class="p-2 sm:p-3 bg-blue-50 text-blue-600 rounded-lg"><i
+                    class="stat-card bg-gradient-to-br from-white to-blue-50/40 p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+                    <div class="stat-icon-wrap p-2 sm:p-3 bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 rounded-lg shadow-inner"><i
                             class="fa-solid fa-user-gear text-base sm:text-lg"></i></div>
                     <div>
                         <p class="text-[10px] sm:text-xs text-gray-500 font-medium">Teknik Personel</p>
@@ -357,8 +603,8 @@
                     </div>
                 </div>
                 <div
-                    class="bg-white p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-                    <div class="p-2 sm:p-3 bg-indigo-50 text-indigo-600 rounded-lg"><i
+                    class="stat-card bg-gradient-to-br from-white to-indigo-50/40 p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+                    <div class="stat-icon-wrap p-2 sm:p-3 bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-600 rounded-lg shadow-inner"><i
                             class="fa-solid fa-users text-base sm:text-lg"></i></div>
                     <div>
                         <p class="text-[10px] sm:text-xs text-gray-500 font-medium">Saha Personeli</p>
@@ -366,8 +612,8 @@
                     </div>
                 </div>
                 <div
-                    class="bg-white p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-                    <div class="p-2 sm:p-3 bg-amber-50 text-amber-600 rounded-lg"><i
+                    class="stat-card bg-gradient-to-br from-white to-amber-50/40 p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+                    <div class="stat-icon-wrap p-2 sm:p-3 bg-gradient-to-br from-amber-100 to-amber-50 text-amber-600 rounded-lg shadow-inner"><i
                             class="fa-solid fa-truck-monster text-base sm:text-lg"></i></div>
                     <div>
                         <p class="text-[10px] sm:text-xs text-gray-500 font-medium">Makine / Ekipman</p>
@@ -375,8 +621,8 @@
                     </div>
                 </div>
                 <div
-                    class="bg-white p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
-                    <div class="p-2 sm:p-3 bg-emerald-50 text-emerald-600 rounded-lg"><i
+                    class="stat-card bg-gradient-to-br from-white to-emerald-50/40 p-3 sm:p-4 rounded-xl border border-gray-200 shadow-sm flex items-center space-x-3">
+                    <div class="stat-icon-wrap p-2 sm:p-3 bg-gradient-to-br from-emerald-100 to-emerald-50 text-emerald-600 rounded-lg shadow-inner"><i
                             class="fa-solid fa-cubes text-base sm:text-lg"></i></div>
                     <div>
                         <p class="text-[10px] sm:text-xs text-gray-500 font-medium">Gelen Malzeme</p>
@@ -386,24 +632,26 @@
             </div>
 
             <!-- SECTION 1: General Header Details -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
-                    class="bg-slate-800 text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
-                    <h2 class="text-sm font-semibold flex items-center space-x-2">
-                        <i class="fa-solid fa-circle-info text-emerald-400"></i>
+                    class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-circle-info text-sm"></i></span>
                         <span>1. Genel Rapor ve Saha Bilgileri</span>
                     </h2>
-                    <span id="header-date-badge" class="text-xs text-slate-400">Tarih: -</span>
+                    <span id="header-date-badge" class="text-xs text-slate-300">Tarih: -</span>
                 </div>
                 <div class="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Rapor Tarihi</label>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Rapor Tarihi <span
+                                class="text-red-500">*</span></label>
                         <input type="text" id="input-date" onchange="updateReportData()"
                             class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Proje Adı</label>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Proje Adı <span
+                                class="text-red-500">*</span></label>
                         <select id="input-project-name" onchange="updateReportData()"
                             class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
                             <option value="">Seçiniz...</option>
@@ -414,14 +662,22 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Lokasyon / Şantiye</label>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Lokasyon / Şantiye <span
+                                class="text-red-500">*</span></label>
                         <input type="text" id="input-location" onchange="updateReportData()"
                             class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-700 mb-1">Hava Durumu</label>
-                        <input type="text" id="input-weather" onchange="updateReportData()"
-                            class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800">
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">
+                            Hava Durumu <span class="text-[10px] font-normal text-gray-400">(Sincan/Ankara -
+                                otomatik)</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="input-weather" readonly
+                                class="w-full bg-gray-100 border border-gray-300 rounded-lg text-xs p-2.5 font-medium text-gray-600 cursor-not-allowed pr-8"
+                                placeholder="Hava durumu alınıyor...">
+                            <i class="fa-solid fa-lock absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[10px]"></i>
+                        </div>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-700 mb-1">Vardiya Saatleri</label>
@@ -452,11 +708,11 @@
             </div>
 
             <!-- SECTION 2: TEKNİK PERSONEL (SABİT LİSTE) -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
-                    class="bg-slate-800 text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
-                    <h2 class="text-sm font-semibold flex items-center space-x-2">
-                        <i class="fa-solid fa-user-gear text-emerald-400"></i>
+                    class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-user-gear text-sm"></i></span>
                         <span>2. Teknik Personel (Sabit Liste - Sadece Adet Giriniz)</span>
                     </h2>
                     <span class="text-xs text-emerald-300 font-medium">14 Unvan Tanımlı</span>
@@ -477,11 +733,11 @@
             </div>
 
             <!-- SECTION 3: SAHA PERSONELİ (SABİT LİSTE) -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
-                    class="bg-slate-800 text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
-                    <h2 class="text-sm font-semibold flex items-center space-x-2">
-                        <i class="fa-solid fa-users text-emerald-400"></i>
+                    class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-users text-sm"></i></span>
                         <span>3. Saha Personeli (Sabit Liste - Sadece Adet Giriniz)</span>
                     </h2>
                     <span class="text-xs text-emerald-300 font-medium">10 Ekip/Branş Tanımlı</span>
@@ -502,11 +758,11 @@
             </div>
 
             <!-- SECTION 4: MAKİNE - NAKİL VASITASI (SABİT LİSTE) -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
-                    class="bg-slate-800 text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
-                    <h2 class="text-sm font-semibold flex items-center space-x-2">
-                        <i class="fa-solid fa-truck-monster text-emerald-400"></i>
+                    class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-truck-monster text-sm"></i></span>
                         <span>4. Makine - Nakil Vasıtası (Sabit Liste - Sadece Adet Giriniz)</span>
                     </h2>
                     <span class="text-xs text-emerald-300 font-medium">12 Araç/Makine Tanımlı</span>
@@ -527,14 +783,14 @@
             </div>
 
             <!-- SECTION 5: Work Progress & Quantities -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-slate-800 text-white px-4 sm:px-5 py-3.5 flex items-center justify-between">
-                    <h2 class="text-sm font-semibold flex items-center space-x-2">
-                        <i class="fa-solid fa-cubes text-emerald-400"></i>
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
+                <div class="section-header text-white px-4 sm:px-5 py-3.5 flex items-center justify-between">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-cubes text-sm"></i></span>
                         <span>5. Gelen Malzeme Miktarı</span>
                     </h2>
                     <button onclick="addWorkRow()"
-                        class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+                        class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
                         <i class="fa-solid fa-plus"></i>
                         <span>Malzeme Ekle</span>
                     </button>
@@ -557,29 +813,86 @@
             </div>
 
             <!-- SECTION 6: Notes & Observations -->
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="bg-slate-800 text-white px-4 sm:px-5 py-3.5">
-                    <h2 class="text-sm font-semibold flex items-center space-x-2">
-                        <i class="fa-solid fa-clipboard-list text-emerald-400"></i>
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
+                <div class="section-header text-white px-4 sm:px-5 py-3.5">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-clipboard-list text-sm"></i></span>
                         <span>6. Şantiye Notları, İSG ve Genel Değerlendirmeler</span>
                     </h2>
                 </div>
                 <div class="p-4 sm:p-5">
-                    <textarea id="input-general-notes" onchange="updateReportData()" rows="4"
-                        class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-3 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800 leading-relaxed"
-                        placeholder="Günlük şantiye aksamaları, İSG durumları, hava şartları etkisi veya özel notlarınızı yazınız..."></textarea>
+                    <!-- Zengin metin araç çubuğu (yalnızca admin için düzenlenebilir) -->
+                    <div id="rt-toolbar" class="hidden flex items-center gap-1.5 mb-2 flex-wrap">
+                        <button type="button" class="rt-toolbar-btn" onclick="rtExec('bold')" title="Kalın"><i
+                                class="fa-solid fa-bold"></i></button>
+                        <button type="button" class="rt-toolbar-btn" onclick="rtExec('italic')" title="İtalik"><i
+                                class="fa-solid fa-italic"></i></button>
+                        <button type="button" class="rt-toolbar-btn" onclick="rtExec('underline')"
+                            title="Altı Çizili"><i class="fa-solid fa-underline"></i></button>
+                        <span class="w-px h-5 bg-gray-300 mx-1"></span>
+                        <label class="rt-toolbar-btn !w-auto px-1.5 relative" title="Yazı Rengi">
+                            <i class="fa-solid fa-palette" id="rt-color-icon" style="color:#dc2626;"></i>
+                            <input type="color" id="rt-color-input" value="#dc2626"
+                                class="absolute inset-0 opacity-0 cursor-pointer"
+                                onchange="rtExec('foreColor', this.value); document.getElementById('rt-color-icon').style.color = this.value;">
+                        </label>
+                        <span class="w-px h-5 bg-gray-300 mx-1"></span>
+                        <button type="button" class="rt-toolbar-btn !w-auto px-2 text-[10px] font-semibold"
+                            onclick="rtExec('removeFormat')" title="Biçimlendirmeyi Temizle">Temizle</button>
+                    </div>
+                    <!-- Admin: düzenlenebilir zengin metin alanı -->
+                    <div id="input-general-notes-rich" contenteditable="true" oninput="updateReportData()"
+                        onfocus="document.getElementById('rt-toolbar').classList.remove('hidden')"
+                        data-placeholder="Günlük şantiye aksamaları, İSG durumları, hava şartları etkisi veya özel notlarınızı yazınız..."
+                        class="hidden w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-3 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-medium text-gray-800 leading-relaxed"></div>
+                    <!-- Saha kullanıcısı: salt-okunur görünüm -->
+                    <div id="input-general-notes-readonly"
+                        class="w-full bg-gray-50 border border-gray-300 rounded-lg text-xs p-3 font-medium text-gray-800 leading-relaxed min-h-[96px]">
+                    </div>
+                    <p id="rt-hint" class="hidden text-[10px] text-gray-400 mt-1.5">
+                        <i class="fa-solid fa-circle-info"></i> Kalın / İtalik / Altı Çizili / Renk özelliklerini
+                        kullanmak için metni seçip araç çubuğundaki düğmelere tıklayın.
+                    </p>
                 </div>
+            </div>
+
+            <!-- SECTION: Şantiye Fotoğrafları -->
+            <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
+                <div class="section-header text-white px-4 sm:px-5 py-3.5 flex items-center justify-between">
+                    <h2 class="text-sm font-semibold flex items-center space-x-2.5">
+                        <span class="section-icon-badge"><i class="fa-solid fa-camera text-sm"></i></span>
+                        <span>Şantiye Fotoğrafları</span>
+                    </h2>
+                    <span id="photo-count-badge" class="text-xs text-emerald-300 font-medium">Opsiyonel</span>
+                </div>
+                <div class="p-4 sm:p-5">
+                    <div id="photo-drop-zone"
+                        class="relative border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-emerald-400 transition cursor-pointer bg-gray-50"
+                        onclick="document.getElementById('input-site-photo').click()">
+                        <input type="file" id="input-site-photo" accept="image/*" multiple class="hidden"
+                            onchange="handlePhotoUpload(event)">
+                        <div id="photo-placeholder" class="py-4">
+                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-gray-400 mb-2"></i>
+                            <p class="text-xs text-gray-500 font-medium">Şantiye fotoğraflarını yüklemek için tıklayın
+                                (birden fazla seçebilirsiniz)</p>
+                            <p class="text-[10px] text-gray-400 mt-1">Rapora ve önizlemeye eklenecektir</p>
+                        </div>
+                    </div>
+                    <div id="photo-gallery-grid" class="hidden grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4">
+                    </div>
+                </div>
+
             </div>
 
             <!-- Save & Preview Trigger Button -->
             <div class="flex flex-col sm:flex-row justify-end gap-3 pt-2">
                 <button onclick="saveCurrentSheetData()"
-                    class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-md transition flex items-center justify-center space-x-2">
+                    class="btn-press w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-md transition flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-floppy-disk"></i>
                     <span>Raporu Kaydet</span>
                 </button>
                 <button onclick="switchTab('preview')"
-                    class="admin-only-btn w-full sm:w-auto bg-slate-800 hover:bg-slate-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-md transition flex items-center justify-center space-x-2">
+                    class="btn-press admin-only-btn w-full sm:w-auto bg-slate-800 hover:bg-slate-900 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-md transition flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-eye"></i>
                     <span>Excel Formatında Önizle</span>
                 </button>
@@ -599,7 +912,7 @@
                     <span>Verileriniz Excel şablonu formatına yerleştirildi. Sayfa <strong>A4 yazdırma ve PDF
                             indirme</strong> için birebir uyumludur.</span>
                 </div>
-                <button onclick="exportToPDF()"
+                <button btn-press onclick="exportToPDF()"
                     class="w-full sm:w-auto shrink-0 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm transition flex items-center justify-center space-x-2">
                     <i class="fa-solid fa-file-pdf"></i>
                     <span>PDF Olarak Çıktı Al</span>
@@ -774,7 +1087,15 @@
                         <span>5. ŞANTİYE NOTLARI, İSG VE ÖZEL AÇIKLAMALAR</span>
                     </div>
                     <div id="preview-notes-content"
-                        class="border border-gray-400 p-3 text-xs leading-relaxed text-gray-800 min-h-[50px] whitespace-pre-wrap bg-white">
+                        class="border border-gray-400 p-3 text-xs leading-relaxed text-gray-800 min-h-[50px] bg-white">
+                    </div>
+                </div>
+
+                <div id="preview-photo-section" class="mb-6 min-w-[650px] hidden">
+                    <div class="bg-gray-200 px-3 py-1 font-bold text-xs border border-gray-400 text-gray-800 uppercase">
+                        <span>ŞANTİYE FOTOĞRAFLARI</span>
+                    </div>
+                    <div id="preview-photo-grid" class="border border-gray-400 p-3 bg-white grid grid-cols-2 sm:grid-cols-3 gap-3">
                     </div>
                 </div>
 
@@ -822,7 +1143,7 @@
                         <p class="text-xs text-gray-500">Tüm geçmiş Excel günlük rapor kayıtlarınızı görüntüleyin veya
                             silin.</p>
                     </div>
-                    <button onclick="createNewSheetModal()"
+                    <button btn-press onclick="createNewSheetModal()"
                         class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-xs font-semibold flex items-center justify-center space-x-2 transition shadow-sm">
                         <i class="fa-solid fa-plus"></i>
                         <span>Yeni Günlük Rapor Ekle</span>
@@ -872,7 +1193,7 @@
             <div class="flex justify-end space-x-2 mt-6">
                 <button onclick="closeNewSheetModal()"
                     class="px-4 py-2 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded-lg">İptal</button>
-                <button onclick="confirmCreateNewSheet()"
+                <button btn-press onclick="confirmCreateNewSheet()"
                     class="px-4 py-2 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg shadow-sm">Oluştur
                     ve Başla</button>
             </div>
@@ -966,6 +1287,9 @@
         let currentActiveKey = "draft_rapor";
 
         window.onload = function () {
+            applyDarkModePreference();
+            updateOfflineBanner();
+
             const savedStore = localStorage.getItem('shantiye_rapor_store_v2');
             if (savedStore) {
                 try {
@@ -975,7 +1299,7 @@
                 }
             }
 
-            const sessionUser = sessionStorage.getItem('shantiye_active_user');
+            const sessionUser = getRememberedUser();
             if (sessionUser && USERS[sessionUser]) {
                 loginUser(USERS[sessionUser]);
             } else {
@@ -984,6 +1308,60 @@
 
             prepareNewBlankEntry();
         };
+
+        /* ============================================================
+           OTURUM HATIRLAMA (15 DAKİKA)
+        ============================================================ */
+        const SESSION_DURATION_MS = 15 * 60 * 1000; // 15 dakika
+
+        function rememberUser(username) {
+            const expiry = Date.now() + SESSION_DURATION_MS;
+            localStorage.setItem('shantiye_active_user', username);
+            localStorage.setItem('shantiye_session_expiry', String(expiry));
+        }
+
+        function getRememberedUser() {
+            const username = localStorage.getItem('shantiye_active_user');
+            const expiryRaw = localStorage.getItem('shantiye_session_expiry');
+            if (!username || !expiryRaw) return null;
+
+            const expiry = parseInt(expiryRaw, 10);
+            if (Date.now() > expiry) {
+                // Süre dolmuş, oturumu temizle
+                clearRememberedUser();
+                return null;
+            }
+            return username;
+        }
+
+        function clearRememberedUser() {
+            localStorage.removeItem('shantiye_active_user');
+            localStorage.removeItem('shantiye_session_expiry');
+        }
+
+        function refreshSessionExpiry() {
+            if (currentUser && localStorage.getItem('shantiye_active_user')) {
+                localStorage.setItem('shantiye_session_expiry', String(Date.now() + SESSION_DURATION_MS));
+            }
+        }
+
+        // Kullanıcı sayfayla etkileşime girdikçe 15 dakikalık süreyi tazele
+        ['click', 'keydown', 'input', 'change'].forEach(evt => {
+            window.addEventListener(evt, () => refreshSessionExpiry(), { passive: true });
+        });
+
+        // Süresi dolan oturumları periyodik kontrol et ve otomatik çıkış yaptır
+        setInterval(() => {
+            if (!currentUser) return;
+            const expiryRaw = localStorage.getItem('shantiye_session_expiry');
+            if (!expiryRaw) return;
+            if (Date.now() > parseInt(expiryRaw, 10)) {
+                clearRememberedUser();
+                currentUser = null;
+                document.getElementById('login-modal').classList.remove('hidden');
+                showToast("Oturum süresi doldu, lütfen tekrar giriş yapın", "info");
+            }
+        }, 30 * 1000);
 
         function handleLogin(event) {
             event.preventDefault();
@@ -1001,6 +1379,7 @@
                     role: usernameInput === "admin" ? "admin" : "saha"
                 };
                 isLoggedIn = true;
+                rememberUser(usernameInput);
 
                 // Giriş modalını gizle
                 document.getElementById('login-modal').classList.add('hidden');
@@ -1036,7 +1415,7 @@
 
         function loginUser(userObj) {
             currentUser = userObj;
-            sessionStorage.setItem('shantiye_active_user', userObj.username);
+            rememberUser(userObj.username);
             document.getElementById('login-modal').classList.add('hidden');
 
             document.getElementById('user-display-name').textContent = userObj.name;
@@ -1055,7 +1434,7 @@
         }
 
         function handleLogout() {
-            sessionStorage.removeItem('shantiye_active_user');
+            clearRememberedUser();
             currentUser = null;
             document.getElementById('login-username').value = '';
             document.getElementById('login-password').value = '';
@@ -1089,6 +1468,22 @@
                 if (sahaBanner) sahaBanner.classList.remove('hidden');
                 switchTab('form');
             }
+
+            // 6. Bölüm: Şantiye Notları - sadece admin zengin metin ile düzenleyebilir
+            const richNotes = document.getElementById('input-general-notes-rich');
+            const readonlyNotes = document.getElementById('input-general-notes-readonly');
+            const rtToolbar = document.getElementById('rt-toolbar');
+            const rtHint = document.getElementById('rt-hint');
+            if (isAdmin) {
+                if (richNotes) richNotes.classList.remove('hidden');
+                if (readonlyNotes) readonlyNotes.classList.add('hidden');
+                if (rtHint) rtHint.classList.remove('hidden');
+            } else {
+                if (richNotes) richNotes.classList.add('hidden');
+                if (readonlyNotes) readonlyNotes.classList.remove('hidden');
+                if (rtToolbar) rtToolbar.classList.add('hidden');
+                if (rtHint) rtHint.classList.add('hidden');
+            }
         }
 
         function saveToLocalStorage() {
@@ -1112,6 +1507,7 @@
             if (!data.techPersonnel) data.techPersonnel = createInitialTechPersonnel();
             if (!data.fieldPersonnel) data.fieldPersonnel = createInitialFieldPersonnel();
             if (!data.equipment || data.equipment.length !== FIXED_EQUIPMENT.length) data.equipment = createInitialEquipment();
+            if (!data.works) data.works = [];
 
             document.getElementById('input-date').value = data.date || '';
             document.getElementById('input-project-name').value = data.projectName || '';
@@ -1124,7 +1520,12 @@
             const approvedByEl = document.getElementById('input-approved-by') || document.getElementById('input-consultant');
             if (approvedByEl) approvedByEl.value = data.consultant || data.approvedBy || '';
 
-            document.getElementById('input-general-notes').value = data.generalNotes || '';
+            const richNotes = document.getElementById('input-general-notes-rich');
+            const readonlyNotes = document.getElementById('input-general-notes-readonly');
+            if (richNotes) richNotes.innerHTML = data.generalNotes || '';
+            if (readonlyNotes) readonlyNotes.innerHTML = data.generalNotes || '<span class="text-gray-400">Not girilmedi.</span>';
+
+            loadSitePhotoIntoForm(data.sitePhotos || []);
 
             renderTechPersonnelFormRows();
             renderFieldPersonnelFormRows();
@@ -1132,6 +1533,11 @@
             renderWorksFormRows();
 
             updateStatsBadges();
+
+            // Bu sayfa için hava durumu hiç çekilmemişse otomatik çek
+            if (!data.weather) {
+                fetchWeatherSincan();
+            }
         }
 
         function updateReportDataFromForm() {
@@ -1149,7 +1555,12 @@
             const approvedByEl = document.getElementById('input-approved-by') || document.getElementById('input-consultant');
             if (approvedByEl) data.consultant = approvedByEl.value;
 
-            data.generalNotes = document.getElementById('input-general-notes').value;
+            const richNotes = document.getElementById('input-general-notes-rich');
+            if (currentUser && currentUser.role === 'admin' && richNotes) {
+                data.generalNotes = richNotes.innerHTML;
+                const readonlyNotes = document.getElementById('input-general-notes-readonly');
+                if (readonlyNotes) readonlyNotes.innerHTML = data.generalNotes || '<span class="text-gray-400">Not girilmedi.</span>';
+            }
 
             document.getElementById('header-date-badge').textContent = `Ekip: ${data.sheetEkip || 'Genel Ekip'} | Tarih: ${data.sheetTitle || ''} - ${data.date || ''}`;
         }
@@ -1207,6 +1618,7 @@
                     projectManager: "",
                     consultant: "",
                     generalNotes: "",
+                    sitePhotos: [],
                     techPersonnel: createInitialTechPersonnel(),
                     fieldPersonnel: createInitialFieldPersonnel(),
                     equipment: createInitialEquipment(),
@@ -1218,6 +1630,27 @@
         }
 
         function saveCurrentSheetData() {
+            const dateVal = document.getElementById('input-date').value.trim();
+            const projectVal = document.getElementById('input-project-name').value.trim();
+            const locationVal = document.getElementById('input-location').value.trim();
+
+            const missing = [];
+            if (!dateVal) missing.push("Rapor Tarihi");
+            if (!projectVal) missing.push("Proje Adı");
+            if (!locationVal) missing.push("Lokasyon / Şantiye");
+
+            if (missing.length > 0) {
+                showToast(`Zorunlu alanları doldurunuz: ${missing.join(', ')}`, "error");
+                const firstMissingId = !dateVal ? 'input-date' : (!projectVal ? 'input-project-name' : 'input-location');
+                const el = document.getElementById(firstMissingId);
+                if (el) {
+                    el.classList.add('ring-2', 'ring-red-500', 'border-red-500');
+                    el.focus();
+                    setTimeout(() => el.classList.remove('ring-2', 'ring-red-500', 'border-red-500'), 2500);
+                }
+                return;
+            }
+
             updateReportDataFromForm();
 
             const customTitle = document.getElementById('input-project-name').value || "Saha Raporu";
@@ -1363,6 +1796,7 @@
         }
 
         function addWorkRow() {
+            if (!store[currentActiveKey].works) store[currentActiveKey].works = [];
             store[currentActiveKey].works.push({
                 id: Date.now(),
                 title: "Yapılan İş Kalemi",
@@ -1375,11 +1809,14 @@
         }
 
         function updateWorkField(index, field, value) {
+            if (!store[currentActiveKey].works) store[currentActiveKey].works = [];
+            if (!store[currentActiveKey].works[index]) return;
             store[currentActiveKey].works[index][field] = value;
             updateStatsBadges();
         }
 
         function deleteWorkRow(index) {
+            if (!store[currentActiveKey].works) return;
             store[currentActiveKey].works.splice(index, 1);
             renderWorksFormRows();
         }
@@ -1496,7 +1933,29 @@
                 previewWorksTbody.appendChild(tr);
             });
 
-            document.getElementById('preview-notes-content').textContent = data.generalNotes || 'Herhangi bir özel not girilmedi.';
+            const notesContent = document.getElementById('preview-notes-content');
+            if (data.generalNotes && data.generalNotes.trim()) {
+                notesContent.innerHTML = data.generalNotes;
+            } else {
+                notesContent.textContent = 'Herhangi bir özel not girilmedi.';
+            }
+
+            const photoSection = document.getElementById('preview-photo-section');
+            const photoGrid = document.getElementById('preview-photo-grid');
+            const photos = data.sitePhotos || [];
+            if (photos.length > 0) {
+                photoGrid.innerHTML = '';
+                photos.forEach((src, i) => {
+                    const img = document.createElement('img');
+                    img.src = src;
+                    img.alt = `Şantiye Fotoğrafı ${i + 1}`;
+                    img.className = 'w-full h-40 object-contain rounded border border-gray-300 bg-gray-100';
+                    photoGrid.appendChild(img);
+                });
+                photoSection.classList.remove('hidden');
+            } else {
+                photoSection.classList.add('hidden');
+            }
         }
 
         function renderHistoryView() {
@@ -1831,6 +2290,7 @@
                 projectManager: "",
                 consultant: "",
                 generalNotes: "",
+                sitePhotos: [],
                 techPersonnel: createInitialTechPersonnel(),
                 fieldPersonnel: createInitialFieldPersonnel(),
                 equipment: createInitialEquipment(),
@@ -1876,6 +2336,267 @@
                 .replace(/"/g, "&quot;")
                 .replace(/'/g, "&#039;");
         }
+
+        /* ============================================================
+           KARANLIK MOD
+        ============================================================ */
+        function applyDarkModePreference() {
+            const saved = localStorage.getItem('shantiye_dark_mode');
+            const isDark = saved === '1';
+            const html = document.getElementById('html-root');
+            const icon = document.getElementById('dark-mode-icon');
+            if (isDark) {
+                html.classList.add('dark');
+                if (icon) { icon.className = "fa-solid fa-sun text-amber-300 text-xs"; }
+            } else {
+                html.classList.remove('dark');
+                if (icon) { icon.className = "fa-solid fa-moon text-slate-300 text-xs"; }
+            }
+        }
+
+        function toggleDarkMode() {
+            const html = document.getElementById('html-root');
+            const nowDark = !html.classList.contains('dark');
+            localStorage.setItem('shantiye_dark_mode', nowDark ? '1' : '0');
+            applyDarkModePreference();
+            showToast(nowDark ? "Karanlık mod açıldı" : "Aydınlık mod açıldı", "info");
+        }
+
+        /* ============================================================
+           ZENGİN METİN (6. Bölüm - Sadece Admin)
+        ============================================================ */
+        function rtExec(command, value = null) {
+            const editor = document.getElementById('input-general-notes-rich');
+            if (!editor) return;
+            editor.focus();
+            try {
+                document.execCommand(command, false, value);
+            } catch (e) {
+                console.warn("rtExec hata:", e);
+            }
+            updateReportData();
+        }
+
+        /* ============================================================
+           HAVA DURUMU - Sincan / Ankara, Saat 12:00 Otomatik
+        ============================================================ */
+        // Sincan, Ankara koordinatları
+        const SINCAN_LAT = 39.9689;
+        const SINCAN_LON = 32.5786;
+
+        function weatherCodeToText(code) {
+            const map = {
+                0: "Açık", 1: "Çoğunlukla Açık", 2: "Parçalı Bulutlu", 3: "Kapalı",
+                45: "Sisli", 48: "Kırağı Sisi",
+                51: "Hafif Çisenti", 53: "Çisenti", 55: "Yoğun Çisenti",
+                56: "Donan Çisenti", 57: "Yoğun Donan Çisenti",
+                61: "Hafif Yağmurlu", 63: "Yağmurlu", 65: "Kuvvetli Yağmurlu",
+                66: "Donan Hafif Yağmur", 67: "Donan Kuvvetli Yağmur",
+                71: "Hafif Kar Yağışlı", 73: "Kar Yağışlı", 75: "Kuvvetli Kar Yağışlı",
+                77: "Kar Taneleri",
+                80: "Hafif Sağanak", 81: "Sağanak Yağışlı", 82: "Şiddetli Sağanak",
+                85: "Hafif Kar Sağanağı", 86: "Kuvvetli Kar Sağanağı",
+                95: "Gök Gürültülü Fırtına", 96: "Dolulu Fırtına", 99: "Kuvvetli Dolulu Fırtına"
+            };
+            return map[code] || "Bilinmiyor";
+        }
+
+        async function fetchWeatherSincan() {
+            const input = document.getElementById('input-weather');
+            if (!input) return;
+
+            input.placeholder = "Hava durumu alınıyor...";
+
+            try {
+                const dateVal = document.getElementById('input-date').value;
+                let dateParam = "";
+                // Rapor tarihi girilmişse o günü, girilmemişse bugünü kullan
+                const parsedDate = parseTrDateToISO(dateVal) || new Date().toISOString().slice(0, 10);
+                dateParam = parsedDate;
+
+                const url = `https://api.open-meteo.com/v1/forecast?latitude=${SINCAN_LAT}&longitude=${SINCAN_LON}&hourly=temperature_2m,weathercode&timezone=Europe%2FIstanbul&start_date=${dateParam}&end_date=${dateParam}`;
+
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Hava durumu API hatası");
+                const json = await res.json();
+
+                const times = json?.hourly?.time || [];
+                const temps = json?.hourly?.temperature_2m || [];
+                const codes = json?.hourly?.weathercode || [];
+
+                // Saat 12:00'a en yakın kaydı bul
+                let idx = times.findIndex(t => t.endsWith("T12:00"));
+                if (idx === -1) idx = 12;
+
+                const temp = temps[idx];
+                const code = codes[idx];
+
+                if (temp === undefined || code === undefined) throw new Error("Veri bulunamadı");
+
+                const text = `${weatherCodeToText(code)}, ${Math.round(temp)}°C`;
+                input.value = text;
+
+                if (store[currentActiveKey]) {
+                    store[currentActiveKey].weather = text;
+                    saveToLocalStorage();
+                }
+            } catch (err) {
+                console.warn("Hava durumu alınamadı:", err);
+                input.value = "Hava durumu alınamadı";
+                if (store[currentActiveKey]) {
+                    store[currentActiveKey].weather = "Hava durumu alınamadı";
+                }
+            }
+        }
+
+        function parseTrDateToISO(trDate) {
+            // "gg.aa.yyyy" formatını "yyyy-aa-gg" formatına çevirir
+            if (!trDate) return null;
+            const parts = trDate.split(/[.\/]/);
+            if (parts.length !== 3) return null;
+            let [d, m, y] = parts;
+            if (y.length !== 4) return null;
+            d = d.padStart(2, '0');
+            m = m.padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        /* ============================================================
+           ŞANTİYE FOTOĞRAFLARI (Çoklu)
+        ============================================================ */
+        const MAX_PHOTOS = 12;
+        const MAX_PHOTO_SIZE = 4 * 1024 * 1024; // 4MB
+
+        function handlePhotoUpload(event) {
+            const files = event.target.files ? Array.from(event.target.files) : [];
+            if (files.length === 0) return;
+
+            const data = store[currentActiveKey];
+            if (!data) return;
+            if (!data.sitePhotos) data.sitePhotos = [];
+
+            const remainingSlots = MAX_PHOTOS - data.sitePhotos.length;
+            if (remainingSlots <= 0) {
+                showToast(`En fazla ${MAX_PHOTOS} fotoğraf ekleyebilirsiniz`, "error");
+                event.target.value = '';
+                return;
+            }
+
+            const filesToProcess = files.slice(0, remainingSlots);
+            if (files.length > remainingSlots) {
+                showToast(`Sadece ${remainingSlots} fotoğraf daha eklenebilir, fazlası atlandı`, "info");
+            }
+
+            let processed = 0;
+            let added = 0;
+
+            filesToProcess.forEach(file => {
+                if (!file.type.startsWith('image/')) {
+                    processed++;
+                    return;
+                }
+                if (file.size > MAX_PHOTO_SIZE) {
+                    showToast(`"${file.name}" çok büyük (maks. 4MB), atlandı`, "error");
+                    processed++;
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    data.sitePhotos.push(e.target.result);
+                    added++;
+                    processed++;
+                    if (processed === filesToProcess.length) {
+                        saveToLocalStorage();
+                        renderSitePhotoGallery();
+                        if (added > 0) showToast(`${added} fotoğraf eklendi`, "success");
+                    }
+                };
+                reader.onerror = function () {
+                    processed++;
+                    if (processed === filesToProcess.length) {
+                        saveToLocalStorage();
+                        renderSitePhotoGallery();
+                    }
+                };
+                reader.readAsDataURL(file);
+            });
+
+            event.target.value = '';
+        }
+
+        function renderSitePhotoGallery() {
+            const data = store[currentActiveKey];
+            const photos = (data && data.sitePhotos) || [];
+
+            const placeholder = document.getElementById('photo-placeholder');
+            const grid = document.getElementById('photo-gallery-grid');
+            const countBadge = document.getElementById('photo-count-badge');
+
+            if (countBadge) {
+                countBadge.textContent = photos.length > 0 ? `${photos.length} Fotoğraf` : 'Opsiyonel';
+            }
+
+            if (!grid) return;
+
+            if (photos.length === 0) {
+                grid.classList.add('hidden');
+                grid.innerHTML = '';
+                if (placeholder) placeholder.classList.remove('hidden');
+                return;
+            }
+
+            if (placeholder) placeholder.classList.remove('hidden');
+            grid.classList.remove('hidden');
+            grid.innerHTML = '';
+
+            photos.forEach((src, index) => {
+                const wrap = document.createElement('div');
+                wrap.className = 'relative group';
+                wrap.innerHTML = `
+                    <img src="${src}" alt="Şantiye Fotoğrafı ${index + 1}"
+                        class="w-full h-24 sm:h-28 object-contain rounded-lg border border-gray-200 shadow-sm bg-gray-100" />
+                    <button type="button" onclick="event.stopPropagation(); removeSitePhoto(${index});"
+                        class="btn-press absolute top-1 right-1 bg-red-600 hover:bg-red-700 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-md opacity-90">
+                        <i class="fa-solid fa-xmark text-[10px]"></i>
+                    </button>
+                `;
+                grid.appendChild(wrap);
+            });
+        }
+
+        function loadSitePhotoIntoForm(photosArray) {
+            const data = store[currentActiveKey];
+            if (data && !data.sitePhotos) data.sitePhotos = photosArray || [];
+            renderSitePhotoGallery();
+            const fileInput = document.getElementById('input-site-photo');
+            if (fileInput) fileInput.value = '';
+        }
+
+        function removeSitePhoto(index) {
+            const data = store[currentActiveKey];
+            if (!data || !data.sitePhotos) return;
+            data.sitePhotos.splice(index, 1);
+            saveToLocalStorage();
+            renderSitePhotoGallery();
+            showToast("Fotoğraf kaldırıldı", "info");
+        }
+
+        /* ============================================================
+           ÇEVRİMDIŞI DURUM BANDI
+        ============================================================ */
+        function updateOfflineBanner() {
+            const banner = document.getElementById('offline-banner');
+            if (!banner) return;
+            if (navigator.onLine) {
+                banner.classList.add('hidden');
+            } else {
+                banner.classList.remove('hidden');
+            }
+        }
+
+        window.addEventListener('online', updateOfflineBanner);
+        window.addEventListener('offline', updateOfflineBanner);
     </script>
 
 
