@@ -1669,6 +1669,8 @@
             showToast("Rapor başarıyla kaydedildi!", "success");
         }
 
+        let deletedReportKeys = [];
+
         function deleteReport(key) {
             if (Object.keys(store).length <= 1) {
                 showToast("En az bir rapor kalmalıdır, tamamen silinemez!", "error");
@@ -1676,6 +1678,7 @@
             }
             if (confirm("Bu raporu silmek istediğinize emin misiniz?")) {
                 delete store[key];
+                deletedReportKeys.push(key);
                 saveToLocalStorage();
                 renderHistoryView();
                 showToast("Rapor başarıyla silindi.", "success");
@@ -2627,7 +2630,24 @@
                 _originalSave();
                 if (sahaRef && firebaseReady) {
                     ignoreNextFirebaseUpdate = true;
-                    sahaRef.set(store).catch(err => {
+                    // ÖNEMLİ: Burada sahaRef.set(...) ile TÜM veri seti buluta
+                    // yeniden yazılMAZ. Bunun yerine sadece değişen/silinen
+                    // raporların path'lerine hedefli bir update() gönderilir.
+                    // Böylece iki cihaz/sekme aynı anda kayıt yapsa bile,
+                    // biri diğerinin eklediği raporu "görmeden" üzerine yazıp
+                    // silme riski (race condition) ortadan kalkar; her cihaz
+                    // sadece kendi değiştirdiği anahtarları günceller.
+                    const updates = {};
+                    Object.keys(store).forEach(key => {
+                        updates[key] = store[key];
+                    });
+                    deletedReportKeys.forEach(key => {
+                        updates[key] = null; // Firebase'de null = o path'i sil
+                    });
+
+                    sahaRef.update(updates).then(() => {
+                        deletedReportKeys = [];
+                    }).catch(err => {
                         console.error("Firebase kayıt hatası:", err);
                         ignoreNextFirebaseUpdate = false;
                     });
@@ -2643,6 +2663,19 @@
                 if (data) {
                     store = data;
                     localStorage.setItem('shantiye_rapor_store_v2', JSON.stringify(store));
+
+                    // Ekranı güncel veriyle yenile, yoksa kullanıcı sekmeyi
+                    // yeniden açana kadar eski/boş görünümü görmeye devam eder.
+                    const viewHistory = document.getElementById('view-history');
+                    if (viewHistory && !viewHistory.classList.contains('hidden')) {
+                        renderHistoryView();
+                    }
+                    if (currentActiveKey && store[currentActiveKey]) {
+                        const viewForm = document.getElementById('view-form');
+                        if (viewForm && !viewForm.classList.contains('hidden')) {
+                            loadSheetData(currentActiveKey);
+                        }
+                    }
                 }
             });
 
