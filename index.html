@@ -1469,18 +1469,16 @@
                 switchTab('form');
             }
 
-            // 6. Bölüm: Şantiye Notları - sadece admin zengin metin ile düzenleyebilir
+            // 6. Bölüm: Şantiye Notları - admin ve saha düzenleyebilir
             const richNotes = document.getElementById('input-general-notes-rich');
             const readonlyNotes = document.getElementById('input-general-notes-readonly');
             const rtToolbar = document.getElementById('rt-toolbar');
             const rtHint = document.getElementById('rt-hint');
+            if (richNotes) richNotes.classList.remove('hidden');
+            if (readonlyNotes) readonlyNotes.classList.add('hidden');
             if (isAdmin) {
-                if (richNotes) richNotes.classList.remove('hidden');
-                if (readonlyNotes) readonlyNotes.classList.add('hidden');
                 if (rtHint) rtHint.classList.remove('hidden');
             } else {
-                if (richNotes) richNotes.classList.add('hidden');
-                if (readonlyNotes) readonlyNotes.classList.remove('hidden');
                 if (rtToolbar) rtToolbar.classList.add('hidden');
                 if (rtHint) rtHint.classList.add('hidden');
             }
@@ -1556,7 +1554,7 @@
             if (approvedByEl) data.consultant = approvedByEl.value;
 
             const richNotes = document.getElementById('input-general-notes-rich');
-            if (currentUser && currentUser.role === 'admin' && richNotes) {
+            if (richNotes) {
                 data.generalNotes = richNotes.innerHTML;
                 const readonlyNotes = document.getElementById('input-general-notes-readonly');
                 if (readonlyNotes) readonlyNotes.innerHTML = data.generalNotes || '<span class="text-gray-400">Not girilmedi.</span>';
@@ -2709,6 +2707,7 @@
             console.warn("Firebase bağlantısı kurulamadı.", e);
         }
     </script>
+    
 </body>
 
 </html>
