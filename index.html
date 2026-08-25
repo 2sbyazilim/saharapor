@@ -2648,6 +2648,18 @@
                     }).catch(err => {
                         console.error("Firebase kayıt hatası:", err);
                         ignoreNextFirebaseUpdate = false;
+                        // ÖNEMLİ: Bulut kaydı başarısız olursa kullanıcıyı uyar,
+                        // aksi halde rapor sadece bu cihazda kalır ve kullanıcı
+                        // bunu fark etmeden başka cihaza geçtiğinde "kayıp" sanır.
+                        if (typeof showToast === 'function') {
+                            const isPermissionError = err && (err.code === 'PERMISSION_DENIED' || /permission/i.test(err.message || ''));
+                            showToast(
+                                isPermissionError
+                                    ? "Bulut izni reddedildi! Rapor SADECE bu cihazda kaydedildi. Firebase Rules ayarlarını kontrol edin."
+                                    : "Bulut senkronizasyonu başarısız! Rapor sadece bu cihazda kaydedildi.",
+                                "error"
+                            );
+                        }
                     });
                 }
             };
@@ -2705,6 +2717,9 @@
 
         } catch (e) {
             console.warn("Firebase bağlantısı kurulamadı.", e);
+            if (typeof showToast === 'function') {
+                showToast("Bulut bağlantısı kurulamadı! Raporlar sadece bu cihazda kaydedilecek.", "error");
+            }
         }
     </script>
     
