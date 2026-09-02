@@ -7,6 +7,16 @@
     <title>Günlük Saha Raporu</title>
     <!-- Tailwind CSS CDN -->
      <script>window.onerror = function (msg, url, line, col, error) {
+        // Tarayıcının/CDN kaynaklı script'lerin veya eklentilerin ürettiği,
+        // kaynağı gösterilemeyen (satır:0, dosya:boş) "Script error." mesajları
+        // zararsızdır ve gerçek bir uygulama hatasını yansıtmaz; bunları
+        // konsola logla ama kullanıcıyı alert ile rahatsız etme.
+        const isOpaqueScriptError = (msg === "Script error." || msg === "Script error") && !url && !line;
+        if (isOpaqueScriptError) {
+            console.warn("Yoksayılan opak script hatası (muhtemelen eklenti/CDN kaynaklı):", msg);
+            return true; // tarayıcının varsayılan konsol hatasını da bastır
+        }
+        console.error("Uygulama hatası:", msg, "Satır:", line, "Dosya:", url, error);
         alert(
             "HATA:\n\n" +
             msg +
@@ -1290,14 +1300,9 @@
             applyDarkModePreference();
             updateOfflineBanner();
 
-            const savedStore = localStorage.getItem('shantiye_rapor_store_v2');
-            if (savedStore) {
-                try {
-                    store = JSON.parse(savedStore);
-                } catch (e) {
-                    store = {};
-                }
-            }
+            // NOT: Rapor verisi artık localStorage'da tutulmuyor; sayfa ilk açıldığında
+            // boş bir taslakla başlar, Firebase bağlantısı kurulur kurulmaz
+            // (aşağıdaki sahaRef.on('value', ...) callback'i) güncel veri buluttan çekilir.
 
             const sessionUser = getRememberedUser();
             if (sessionUser && USERS[sessionUser]) {
@@ -1485,7 +1490,11 @@
         }
 
         function saveToLocalStorage() {
-            localStorage.setItem('shantiye_rapor_store_v2', JSON.stringify(store));
+            // Rapor verisi artık cihazda (localStorage) tutulmuyor.
+            // Gerçek kayıt işlemi, sayfanın en altındaki Firebase script'i
+            // tarafından bu fonksiyon override edilerek yapılır (sahaRef.update).
+            // Firebase her nedense yüklenemezse aşağıdaki catch bloğu kullanıcıyı uyarır;
+            // bu durumda fonksiyon hiçbir yere kayıt yapmaz (bilinçli olarak).
         }
 
         function resetToSampleData() {
@@ -2603,13 +2612,13 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyADarFKMyYgGlWZlRL4tmCrBP8Y5YFJ76s",
-            authDomain: "saharapor-67201.firebaseapp.com",
-            databaseURL: "https://saharapor-67201-default-rtdb.firebaseio.com",
-            projectId: "saharapor-67201",
-            storageBucket: "saharapor-67201.firebasestorage.app",
-            messagingSenderId: "237493358921",
-            appId: "1:237493358921:web:d2974974113f9f2bbeca98"
+            apiKey: "AIzaSyB_zV8Lsjv1zlEojzu9gi32zCmSCqUnMYs",
+            authDomain: "saha-rapor-4ac17.firebaseapp.com",
+            databaseURL: "https://saha-rapor-4ac17-default-rtdb.firebaseio.com",
+            projectId: "saha-rapor-4ac17",
+            storageBucket: "saha-rapor-4ac17.firebasestorage.app",
+            messagingSenderId: "3683328208",
+            appId: "1:3683328208:web:64816d4a4b51d683f77ed5"
         };
 
         let firebaseDB = null;
@@ -2623,9 +2632,7 @@
             sahaRef = firebaseDB.ref('saha_raporlari');
             firebaseReady = true;
 
-            const _originalSave = saveToLocalStorage;
             saveToLocalStorage = function () {
-                _originalSave();
                 if (sahaRef && firebaseReady) {
                     ignoreNextFirebaseUpdate = true;
                     // ÖNEMLİ: Burada sahaRef.set(...) ile TÜM veri seti buluta
@@ -2648,15 +2655,15 @@
                     }).catch(err => {
                         console.error("Firebase kayıt hatası:", err);
                         ignoreNextFirebaseUpdate = false;
-                        // ÖNEMLİ: Bulut kaydı başarısız olursa kullanıcıyı uyar,
-                        // aksi halde rapor sadece bu cihazda kalır ve kullanıcı
-                        // bunu fark etmeden başka cihaza geçtiğinde "kayıp" sanır.
+                        // ÖNEMLİ: Artık cihazda yerel bir kopya tutulmuyor;
+                        // bulut kaydı başarısız olursa rapor HİÇBİR YERE kaydedilmemiş
+                        // demektir. Kullanıcıyı bu şekilde net uyar.
                         if (typeof showToast === 'function') {
                             const isPermissionError = err && (err.code === 'PERMISSION_DENIED' || /permission/i.test(err.message || ''));
                             showToast(
                                 isPermissionError
-                                    ? "Bulut izni reddedildi! Rapor SADECE bu cihazda kaydedildi. Firebase Rules ayarlarını kontrol edin."
-                                    : "Bulut senkronizasyonu başarısız! Rapor sadece bu cihazda kaydedildi.",
+                                    ? "Bulut izni reddedildi! Rapor KAYDEDİLEMEDİ. Firebase Rules ayarlarını kontrol edin."
+                                    : "Bulut senkronizasyonu başarısız! Rapor kaydedilemedi, lütfen bağlantınızı kontrol edip tekrar deneyin.",
                                 "error"
                             );
                         }
@@ -2672,7 +2679,6 @@
                 const data = snapshot.val();
                 if (data) {
                     store = data;
-                    localStorage.setItem('shantiye_rapor_store_v2', JSON.stringify(store));
 
                     // Ekranı güncel veriyle yenile, yoksa kullanıcı sekmeyi
                     // yeniden açana kadar eski/boş görünümü görmeye devam eder.
@@ -2718,7 +2724,7 @@
         } catch (e) {
             console.warn("Firebase bağlantısı kurulamadı.", e);
             if (typeof showToast === 'function') {
-                showToast("Bulut bağlantısı kurulamadı! Raporlar sadece bu cihazda kaydedilecek.", "error");
+                showToast("Bulut bağlantısı kurulamadı! Raporlar kaydedilemeyecek, lütfen sayfayı yenileyin veya internet bağlantınızı kontrol edin.", "error");
             }
         }
     </script>
