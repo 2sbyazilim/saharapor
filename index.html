@@ -2611,6 +2611,11 @@
 
 
     <script>
+        /* ============================================================
+           FIREBASE REALTIME DATABASE - ORTAK BULUT KAYDI
+           Rapor verileri localStorage'a kaydedilmez.
+           Tüm cihazlar aynı Firebase verisini gerçek zamanlı görür.
+        ============================================================ */
         const firebaseConfig = {
             apiKey: "AIzaSyADarFKMyYgGlWZlRL4tmCrBP8Y5YFJ76s",
             authDomain: "saharapor-67201.firebaseapp.com",
@@ -2624,108 +2629,132 @@
         let firebaseDB = null;
         let sahaRef = null;
         let firebaseReady = false;
+        let firebaseInitialLoadDone = false;
         let ignoreNextFirebaseUpdate = false;
 
         try {
-            firebase.initializeApp(firebaseConfig);
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+
             firebaseDB = firebase.database();
             sahaRef = firebaseDB.ref('saha_raporlari');
             firebaseReady = true;
 
+            // Rapor verisini SADECE Firebase'e kaydet.
+            // localStorage burada kesinlikle kullanılmaz.
             saveToLocalStorage = function () {
-                if (sahaRef && firebaseReady) {
-                    ignoreNextFirebaseUpdate = true;
-                    // ÖNEMLİ: Burada sahaRef.set(...) ile TÜM veri seti buluta
-                    // yeniden yazılMAZ. Bunun yerine sadece değişen/silinen
-                    // raporların path'lerine hedefli bir update() gönderilir.
-                    // Böylece iki cihaz/sekme aynı anda kayıt yapsa bile,
-                    // biri diğerinin eklediği raporu "görmeden" üzerine yazıp
-                    // silme riski (race condition) ortadan kalkar; her cihaz
-                    // sadece kendi değiştirdiği anahtarları günceller.
-                    const updates = {};
-                    Object.keys(store).forEach(key => {
-                        updates[key] = store[key];
-                    });
-                    deletedReportKeys.forEach(key => {
-                        updates[key] = null; // Firebase'de null = o path'i sil
-                    });
-
-                    sahaRef.update(updates).then(() => {
-                        deletedReportKeys = [];
-                    }).catch(err => {
-                        console.error("Firebase kayıt hatası:", err);
-                        ignoreNextFirebaseUpdate = false;
-                        // ÖNEMLİ: Artık cihazda yerel bir kopya tutulmuyor;
-                        // bulut kaydı başarısız olursa rapor HİÇBİR YERE kaydedilmemiş
-                        // demektir. Kullanıcıyı bu şekilde net uyar.
-                        if (typeof showToast === 'function') {
-                            const isPermissionError = err && (err.code === 'PERMISSION_DENIED' || /permission/i.test(err.message || ''));
-                            showToast(
-                                isPermissionError
-                                    ? "Bulut izni reddedildi! Rapor KAYDEDİLEMEDİ. Firebase Rules ayarlarını kontrol edin."
-                                    : "Bulut senkronizasyonu başarısız! Rapor kaydedilemedi, lütfen bağlantınızı kontrol edip tekrar deneyin.",
-                                "error"
-                            );
-                        }
-                    });
-                }
-            };
-
-            sahaRef.on('value', (snapshot) => {
-                if (ignoreNextFirebaseUpdate) {
-                    ignoreNextFirebaseUpdate = false;
+                if (!sahaRef || !firebaseReady) {
+                    showToast("Firebase bağlantısı hazır değil. Rapor kaydedilemedi!", "error");
                     return;
                 }
-                const data = snapshot.val();
-                if (data) {
-                    store = data;
 
-                    // Ekranı güncel veriyle yenile, yoksa kullanıcı sekmeyi
-                    // yeniden açana kadar eski/boş görünümü görmeye devam eder.
-                    const viewHistory = document.getElementById('view-history');
-                    if (viewHistory && !viewHistory.classList.contains('hidden')) {
-                        renderHistoryView();
-                    }
-                    if (currentActiveKey && store[currentActiveKey]) {
-                        const viewForm = document.getElementById('view-form');
-                        if (viewForm && !viewForm.classList.contains('hidden')) {
-                            loadSheetData(currentActiveKey);
-                        }
-                    }
+                const updates = {};
+
+                // Sadece üzerinde çalışılan raporu güncelle.
+                // Böylece başka bir cihazın oluşturduğu rapor yanlışlıkla ezilmez.
+                if (currentActiveKey && currentActiveKey !== 'draft_rapor' && store[currentActiveKey]) {
+                    updates[currentActiveKey] = store[currentActiveKey];
+                }
+
+                // Silinen raporları Firebase'den de kaldır.
+                deletedReportKeys.forEach(key => {
+                    updates[key] = null;
+                });
+
+                if (Object.keys(updates).length === 0) return;
+
+                ignoreNextFirebaseUpdate = true;
+
+                sahaRef.update(updates)
+                    .then(() => {
+                        deletedReportKeys = [];
+                        showToast("Rapor Firebase'e kaydedildi. Tüm cihazlarda güncellendi.", "success");
+                    })
+                    .catch(err => {
+                        ignoreNextFirebaseUpdate = false;
+                        console.error("Firebase kayıt hatası:", err);
+
+                        const permissionError = err && (
+                            err.code === 'PERMISSION_DENIED' ||
+                            /permission/i.test(err.message || '')
+                        );
+
+                        showToast(
+                            permissionError
+                                ? "Firebase izni reddedildi! Firebase Realtime Database Rules ayarlarını kontrol edin."
+                                : "Firebase'e kayıt yapılamadı. İnternet bağlantınızı kontrol edin.",
+                            "error"
+                        );
+                    });
+            };
+
+            // Firebase'deki değişiklikleri anlık olarak bütün cihazlara dağıt.
+            sahaRef.on('value', snapshot => {
+                if (ignoreNextFirebaseUpdate) {
+                    ignoreNextFirebaseUpdate = false;
+                    firebaseInitialLoadDone = true;
+                    return;
+                }
+
+                const cloudData = snapshot.val();
+                firebaseInitialLoadDone = true;
+
+                // Bulut boşsa boş obje kullan.
+                // Böylece bir cihazın eski localStorage verisi otomatik olarak
+                // ortak veriye karışmaz.
+                store = cloudData && typeof cloudData === 'object' ? cloudData : {};
+
+                // Yeni boş rapor ekranını yalnızca bulutta veri yoksa oluştur.
+                if (Object.keys(store).length === 0) {
+                    prepareNewBlankEntry();
+                } else if (currentActiveKey && store[currentActiveKey]) {
+                    loadSheetData(currentActiveKey);
+                } else {
+                    const firstKey = Object.keys(store)[0];
+                    currentActiveKey = firstKey;
+                    loadSheetData(firstKey);
+                }
+
+                const viewHistory = document.getElementById('view-history');
+                if (viewHistory && !viewHistory.classList.contains('hidden')) {
+                    renderHistoryView();
                 }
             });
 
-            const connectedRef = firebase.database().ref(".info/connected");
-            connectedRef.on("value", (snap) => {
-                const dot = document.getElementById("fb-status-dot");
-                const dotMob = document.getElementById("fb-status-dot-mob");
+            const connectedRef = firebaseDB.ref('.info/connected');
+            connectedRef.on('value', snap => {
+                const connected = snap.val() === true;
+                const dot = document.getElementById('fb-status-dot');
+                const dotMob = document.getElementById('fb-status-dot-mob');
 
-                if (snap.val() === true) {
-                    if (dot) {
-                        dot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]";
-                        dot.parentElement.title = "Bulut Bağlantısı: Aktif (Canlı Senkronize)";
+                if (dot) {
+                    dot.className = connected
+                        ? 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                        : 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]';
+                    if (dot.parentElement) {
+                        dot.parentElement.title = connected
+                            ? 'Bulut Bağlantısı: Aktif (Firebase - Canlı Senkronize)'
+                            : 'Bulut Bağlantısı: Çevrimdışı';
                     }
-                    if (dotMob) {
-                        dotMob.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]";
-                        dotMob.parentElement.title = "Bulut Bağlantısı: Aktif (Canlı Senkronize)";
-                    }
-                } else {
-                    if (dot) {
-                        dot.className = "w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]";
-                        dot.parentElement.title = "Bulut Bağlantısı: Çevrimdışı (Sadece cihazda kayıtlı)";
-                    }
-                    if (dotMob) {
-                        dotMob.className = "w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]";
-                        dotMob.parentElement.title = "Bulut Bağlantısı: Çevrimdışı (Sadece cihazda kayıtlı)";
+                }
+
+                if (dotMob) {
+                    dotMob.className = connected
+                        ? 'w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]'
+                        : 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]';
+                    if (dotMob.parentElement) {
+                        dotMob.parentElement.title = connected
+                            ? 'Bulut Bağlantısı: Aktif (Firebase - Canlı Senkronize)'
+                            : 'Bulut Bağlantısı: Çevrimdışı';
                     }
                 }
             });
 
         } catch (e) {
-            console.warn("Firebase bağlantısı kurulamadı.", e);
-            if (typeof showToast === 'function') {
-                showToast("Bulut bağlantısı kurulamadı! Raporlar kaydedilemeyecek, lütfen sayfayı yenileyin veya internet bağlantınızı kontrol edin.", "error");
-            }
+            console.error('Firebase bağlantısı kurulamadı:', e);
+            firebaseReady = false;
+            showToast('Firebase bağlantısı kurulamadı! Raporlar buluta kaydedilemeyecek.', 'error');
         }
     </script>
     
