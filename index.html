@@ -725,7 +725,10 @@
                         <span class="section-icon-badge"><i class="fa-solid fa-user-gear text-sm"></i></span>
                         <span>2. Teknik Personel (Sabit Liste - Sadece Adet Giriniz)</span>
                     </h2>
-                    <span class="text-xs text-emerald-300 font-medium">14 Unvan Tanımlı</span>
+                  <button onclick="addListRow('techPersonnel')"
+    class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+    <i class="fa-solid fa-plus"></i><span>Personel Ekle</span>
+</button>
                 </div>
                 <div class="p-3 sm:p-5 overflow-x-auto">
                     <table class="w-full text-xs text-left text-gray-600 min-w-[300px]">
@@ -750,7 +753,10 @@
                         <span class="section-icon-badge"><i class="fa-solid fa-users text-sm"></i></span>
                         <span>3. Saha Personeli (Sabit Liste - Sadece Adet Giriniz)</span>
                     </h2>
-                    <span class="text-xs text-emerald-300 font-medium">10 Ekip/Branş Tanımlı</span>
+                   <button onclick="addListRow('fieldPersonnel')"
+    class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+    <i class="fa-solid fa-plus"></i><span>Personel Ekle</span>
+</button>
                 </div>
                 <div class="p-3 sm:p-5 overflow-x-auto">
                     <table class="w-full text-xs text-left text-gray-600 min-w-[300px]">
@@ -775,7 +781,10 @@
                         <span class="section-icon-badge"><i class="fa-solid fa-truck-monster text-sm"></i></span>
                         <span>4. Makine - Nakil Vasıtası (Sabit Liste - Sadece Adet Giriniz)</span>
                     </h2>
-                    <span class="text-xs text-emerald-300 font-medium">12 Araç/Makine Tanımlı</span>
+                   <button onclick="addListRow('equipment')"
+    class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+    <i class="fa-solid fa-plus"></i><span>Makine Ekle</span>
+</button>
                 </div>
                 <div class="p-3 sm:p-5 overflow-x-auto">
                     <table class="w-full text-xs text-left text-gray-600 min-w-[300px]">
@@ -1261,37 +1270,9 @@
             "Jeneratör",
             "Vinç"
         ];
-
-        function createInitialTechPersonnel() {
-            return FIXED_TEKNİK_PERSONEL.map((title, i) => ({
-                id: i + 1,
-                title: title,
-                count: 0,
-                hours: 8,
-                notes: ""
-            }));
-        }
-
-        function createInitialFieldPersonnel() {
-            return FIXED_SAHA_PERSONELI.map((title, i) => ({
-                id: i + 1,
-                title: title,
-                count: 0,
-                hours: 8,
-                notes: ""
-            }));
-        }
-
-        function createInitialEquipment() {
-            return FIXED_EQUIPMENT.map((name, i) => ({
-                id: i + 1,
-                name: name,
-                count: 0,
-                hours: 8.0,
-                status: "Çalışıyor",
-                notes: ""
-            }));
-        }
+unction createInitialTechPersonnel() { return []; }
+function createInitialFieldPersonnel() { return []; }
+function createInitialEquipment() { return []; }
 
         let store = {};
         let currentActiveKey = "draft_rapor";
@@ -1511,9 +1492,9 @@
             currentActiveKey = key;
             const data = store[key];
 
-            if (!data.techPersonnel) data.techPersonnel = createInitialTechPersonnel();
-            if (!data.fieldPersonnel) data.fieldPersonnel = createInitialFieldPersonnel();
-            if (!data.equipment || data.equipment.length !== FIXED_EQUIPMENT.length) data.equipment = createInitialEquipment();
+         if (!data.techPersonnel) data.techPersonnel = [];
+if (!data.fieldPersonnel) data.fieldPersonnel = [];
+if (!data.equipment) data.equipment = [];
             if (!data.works) data.works = [];
 
             document.getElementById('input-date').value = data.date || '';
@@ -1695,87 +1676,96 @@
         function updateReportData() {
             updateReportDataFromForm();
         }
+const LIST_CONFIG = {
+    techPersonnel: {
+        tbody: 'form-tech-personnel-tbody', nameField: 'title', dl: 'dl-tech',
+        suggestions: FIXED_TEKNİK_PERSONEL, placeholder: 'Unvan yazın veya seçin',
+        countClass: 'text-emerald-700 focus:ring-emerald-500'
+    },
+    fieldPersonnel: {
+        tbody: 'form-field-personnel-tbody', nameField: 'title', dl: 'dl-field',
+        suggestions: FIXED_SAHA_PERSONELI, placeholder: 'Branş / ekip yazın veya seçin',
+        countClass: 'text-indigo-700 focus:ring-indigo-500'
+    },
+    equipment: {
+        tbody: 'form-equipment-tbody', nameField: 'name', dl: 'dl-equip',
+        suggestions: FIXED_EQUIPMENT, placeholder: 'Makine / araç yazın veya seçin',
+        countClass: 'text-amber-700 focus:ring-amber-500'
+    }
+};
 
-        function renderTechPersonnelFormRows() {
-            const tbody = document.getElementById('form-tech-personnel-tbody');
-            tbody.innerHTML = '';
-            const list = store[currentActiveKey].techPersonnel || [];
+function ensureDatalists() {
+    Object.values(LIST_CONFIG).forEach(cfg => {
+        if (document.getElementById(cfg.dl)) return;
+        const dl = document.createElement('datalist');
+        dl.id = cfg.dl;
+        dl.innerHTML = cfg.suggestions.map(s => `<option value="${escapeHtml(s)}"></option>`).join('');
+        document.body.appendChild(dl);
+    });
+}
 
-            list.forEach((item, index) => {
-                const isSelected = (parseFloat(item.count) || 0) > 0;
-                const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-emerald-50/50 hover:bg-emerald-50 transition" : "hover:bg-gray-50 transition";
-                tr.innerHTML = `
-                    <td class="p-2.5 text-center font-bold text-gray-400">${index + 1}</td>
-                    <td class="p-2.5 font-semibold text-gray-800">${escapeHtml(item.title)}</td>
-                    <td class="p-2.5">
-                        <input type="number" min="0" oninput="updateTechPersonnelField(${index}, 'count', this.value)" class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-emerald-700 focus:ring-emerald-500" value="${item.count || 0}">
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            updateStatsBadges();
-        }
+function renderDynamicListRows(listKey) {
+    ensureDatalists();
+    const cfg = LIST_CONFIG[listKey];
+    const tbody = document.getElementById(cfg.tbody);
+    tbody.innerHTML = '';
+    const list = store[currentActiveKey][listKey] || [];
 
-        function updateTechPersonnelField(index, field, value) {
-            const list = store[currentActiveKey].techPersonnel;
-            list[index][field] = parseFloat(value) || 0;
-            updateStatsBadges();
-        }
+    list.forEach((item, index) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-gray-50 transition";
+        tr.innerHTML = `
+            <td class="p-2 text-center font-bold text-gray-500">${index + 1}</td>
+            <td class="p-2">
+                <input type="text" list="${cfg.dl}" placeholder="${cfg.placeholder}"
+                    oninput="updateListField('${listKey}', ${index}, '${cfg.nameField}', this.value)"
+                    class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs font-medium"
+                    value="${escapeHtml(item[cfg.nameField] || '')}">
+            </td>
+            <td class="p-2">
+                <input type="number" min="0"
+                    oninput="updateListField('${listKey}', ${index}, 'count', this.value)"
+                    class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold ${cfg.countClass}"
+                    value="${item.count || 0}">
+            </td>
+            <td class="p-2 text-center">
+                <button onclick="deleteListRow('${listKey}', ${index})" class="text-red-500 hover:text-red-700 p-1"><i class="fa-solid fa-trash-can"></i></button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+    updateStatsBadges();
+}
 
-        function renderFieldPersonnelFormRows() {
-            const tbody = document.getElementById('form-field-personnel-tbody');
-            tbody.innerHTML = '';
-            const list = store[currentActiveKey].fieldPersonnel || [];
+function addListRow(listKey) {
+    const cfg = LIST_CONFIG[listKey];
+    const data = store[currentActiveKey];
+    if (!data[listKey]) data[listKey] = [];
+    const row = { id: Date.now(), count: 1, hours: 8, notes: "" };
+    row[cfg.nameField] = "";
+    if (listKey === 'equipment') { row.hours = 8.0; row.status = "Çalışıyor"; }
+    data[listKey].push(row);
+    renderDynamicListRows(listKey);
+}
 
-            list.forEach((item, index) => {
-                const isSelected = (parseFloat(item.count) || 0) > 0;
-                const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-indigo-50/50 hover:bg-indigo-50 transition" : "hover:bg-gray-50 transition";
-                tr.innerHTML = `
-                    <td class="p-2.5 text-center font-bold text-gray-400">${index + 1}</td>
-                    <td class="p-2.5 font-semibold text-gray-800">${escapeHtml(item.title)}</td>
-                    <td class="p-2.5">
-                        <input type="number" min="0" oninput="updateFieldPersonnelField(${index}, 'count', this.value)" class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-indigo-700 focus:ring-indigo-500" value="${item.count || 0}">
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            updateStatsBadges();
-        }
+function updateListField(listKey, index, field, value) {
+    const list = store[currentActiveKey][listKey];
+    if (!list || !list[index]) return;
+    list[index][field] = (field === 'count') ? (parseFloat(value) || 0) : value;
+    updateStatsBadges();
+}
 
-        function updateFieldPersonnelField(index, field, value) {
-            const list = store[currentActiveKey].fieldPersonnel;
-            list[index][field] = parseFloat(value) || 0;
-            updateStatsBadges();
-        }
+function deleteListRow(listKey, index) {
+    const list = store[currentActiveKey][listKey];
+    if (!list) return;
+    list.splice(index, 1);
+    renderDynamicListRows(listKey);
+}
 
-        function renderEquipmentFormRows() {
-            const tbody = document.getElementById('form-equipment-tbody');
-            tbody.innerHTML = '';
-            const list = store[currentActiveKey].equipment || [];
-
-            list.forEach((item, index) => {
-                const isSelected = (parseFloat(item.count) || 0) > 0;
-                const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-amber-50/50 hover:bg-amber-50 transition" : "hover:bg-gray-50 transition";
-                tr.innerHTML = `
-                    <td class="p-2.5 text-center font-bold text-gray-400">${index + 1}</td>
-                    <td class="p-2.5 font-semibold text-gray-800">${escapeHtml(item.name)}</td>
-                    <td class="p-2.5">
-                        <input type="number" min="0" oninput="updateEquipmentField(${index}, 'count', this.value)" class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-amber-700 focus:ring-amber-500" value="${item.count || 0}">
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-            updateStatsBadges();
-        }
-
-        function updateEquipmentField(index, field, value) {
-            const list = store[currentActiveKey].equipment;
-            list[index][field] = parseFloat(value) || 0;
-            updateStatsBadges();
-        }
+// loadSheetData bu isimleri çağırdığı için sarmalayıcılar kalsın
+function renderTechPersonnelFormRows() { renderDynamicListRows('techPersonnel'); }
+function renderFieldPersonnelFormRows() { renderDynamicListRows('fieldPersonnel'); }
+function renderEquipmentFormRows() { renderDynamicListRows('equipment'); }
 
         function renderWorksFormRows() {
             const tbody = document.getElementById('form-works-tbody');
