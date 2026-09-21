@@ -717,23 +717,28 @@
                 </div>
             </div>
 
-            <!-- SECTION 2: TEKNİK PERSONEL (SABİT LİSTE) -->
+            <!-- SECTION 2: TEKNİK PERSONEL (DİNAMİK LİSTE) -->
             <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
                     class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
                     <h2 class="text-sm font-semibold flex items-center space-x-2.5">
                         <span class="section-icon-badge"><i class="fa-solid fa-user-gear text-sm"></i></span>
-                        <span>2. Teknik Personel (Sabit Liste - Sadece Adet Giriniz)</span>
+                        <span>2. Teknik Personel</span>
                     </h2>
-                    <span class="text-xs text-emerald-300 font-medium">14 Unvan Tanımlı</span>
+                    <button onclick="addTechPersonnelRow()"
+                        class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Personel Ekle</span>
+                    </button>
                 </div>
                 <div class="p-3 sm:p-5 overflow-x-auto">
-                    <table class="w-full text-xs text-left text-gray-600 min-w-[300px]">
+                    <table class="w-full text-xs text-left text-gray-600 min-w-[450px]">
                         <thead class="bg-gray-100 text-gray-700 uppercase font-semibold text-[11px]">
                             <tr>
-                                <th class="p-2.5 w-16 text-center">#</th>
-                                <th class="p-2.5">Teknik Personel Unvanı</th>
-                                <th class="p-2.5 w-32 sm:w-48 text-center">Adet (Kişi Sayısı)</th>
+                                <th class="p-2.5 w-12 text-center">#</th>
+                                <th class="p-2.5">Teknik Personel / Unvan</th>
+                                <th class="p-2.5 w-32 sm:w-40 text-center">Adet</th>
+                                <th class="p-2.5 w-12 text-center">İşlem</th>
                             </tr>
                         </thead>
                         <tbody id="form-tech-personnel-tbody" class="divide-y divide-gray-200">
@@ -742,23 +747,28 @@
                 </div>
             </div>
 
-            <!-- SECTION 3: SAHA PERSONELİ (SABİT LİSTE) -->
+            <!-- SECTION 3: SAHA PERSONELİ (DİNAMİK LİSTE) -->
             <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
                     class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
                     <h2 class="text-sm font-semibold flex items-center space-x-2.5">
                         <span class="section-icon-badge"><i class="fa-solid fa-users text-sm"></i></span>
-                        <span>3. Saha Personeli (Sabit Liste - Sadece Adet Giriniz)</span>
+                        <span>3. Saha Personeli</span>
                     </h2>
-                    <span class="text-xs text-emerald-300 font-medium">10 Ekip/Branş Tanımlı</span>
+                    <button onclick="addFieldPersonnelRow()"
+                        class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Personel Ekle</span>
+                    </button>
                 </div>
                 <div class="p-3 sm:p-5 overflow-x-auto">
-                    <table class="w-full text-xs text-left text-gray-600 min-w-[300px]">
+                    <table class="w-full text-xs text-left text-gray-600 min-w-[450px]">
                         <thead class="bg-gray-100 text-gray-700 uppercase font-semibold text-[11px]">
                             <tr>
-                                <th class="p-2.5 w-16 text-center">#</th>
+                                <th class="p-2.5 w-12 text-center">#</th>
                                 <th class="p-2.5">Personel / Ekip Branşı</th>
-                                <th class="p-2.5 w-32 sm:w-48 text-center">Adet (Kişi Sayısı)</th>
+                                <th class="p-2.5 w-32 sm:w-40 text-center">Adet</th>
+                                <th class="p-2.5 w-12 text-center">İşlem</th>
                             </tr>
                         </thead>
                         <tbody id="form-field-personnel-tbody" class="divide-y divide-gray-200">
@@ -767,23 +777,28 @@
                 </div>
             </div>
 
-            <!-- SECTION 4: MAKİNE - NAKİL VASITASI (SABİT LİSTE) -->
+            <!-- SECTION 4: MAKİNE - NAKİL VASITASI (DİNAMİK LİSTE) -->
             <div class="bg-white rounded-xl excel-card-shadow border border-gray-200 overflow-hidden">
                 <div
                     class="section-header text-white px-4 sm:px-5 py-3.5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1">
                     <h2 class="text-sm font-semibold flex items-center space-x-2.5">
                         <span class="section-icon-badge"><i class="fa-solid fa-truck-monster text-sm"></i></span>
-                        <span>4. Makine - Nakil Vasıtası (Sabit Liste - Sadece Adet Giriniz)</span>
+                        <span>4. Makine - Nakil Vasıtası</span>
                     </h2>
-                    <span class="text-xs text-emerald-300 font-medium">12 Araç/Makine Tanımlı</span>
+                    <button onclick="addEquipmentRow()"
+                        class="btn-press bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Makine Ekle</span>
+                    </button>
                 </div>
                 <div class="p-3 sm:p-5 overflow-x-auto">
-                    <table class="w-full text-xs text-left text-gray-600 min-w-[300px]">
+                    <table class="w-full text-xs text-left text-gray-600 min-w-[450px]">
                         <thead class="bg-gray-100 text-gray-700 uppercase font-semibold text-[11px]">
                             <tr>
-                                <th class="p-2.5 w-16 text-center">#</th>
+                                <th class="p-2.5 w-12 text-center">#</th>
                                 <th class="p-2.5">Makine - Nakil Vasıtası</th>
-                                <th class="p-2.5 w-32 sm:w-48 text-center">Adet (Mevcut)</th>
+                                <th class="p-2.5 w-32 sm:w-40 text-center">Adet</th>
+                                <th class="p-2.5 w-12 text-center">İşlem</th>
                             </tr>
                         </thead>
                         <tbody id="form-equipment-tbody" class="divide-y divide-gray-200">
@@ -1160,6 +1175,40 @@
                     </button>
                 </div>
 
+                <div class="mb-5 p-3 sm:p-4 bg-gray-50 border border-gray-200 rounded-xl">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Tarihe Göre</label>
+                            <input type="date" id="history-filter-date" onchange="renderHistoryView()"
+                                class="w-full bg-white border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">İsme / Projeye Göre</label>
+                            <input type="text" id="history-filter-name" oninput="renderHistoryView()"
+                                placeholder="Proje adı, hazırlayan veya lokasyon..."
+                                class="w-full bg-white border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-gray-600 mb-1">Sıralama</label>
+                            <select id="history-sort" onchange="renderHistoryView()"
+                                class="w-full bg-white border border-gray-300 rounded-lg text-xs p-2.5 focus:ring-emerald-500 focus:border-emerald-500">
+                                <option value="date-desc">Tarih: Yeniden Eskiye</option>
+                                <option value="date-asc">Tarih: Eskiden Yeniye</option>
+                                <option value="name-asc">İsim: A → Z</option>
+                                <option value="name-desc">İsim: Z → A</option>
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button onclick="clearHistoryFilters()"
+                                class="w-full bg-white hover:bg-gray-100 text-gray-700 border border-gray-300 rounded-lg text-xs font-semibold p-2.5 transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-filter-circle-xmark"></i>
+                                Filtreleri Temizle
+                            </button>
+                        </div>
+                    </div>
+                    <p id="history-filter-result" class="text-[10px] text-gray-400 mt-2"></p>
+                </div>
+
                 <div id="history-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 </div>
             </div>
@@ -1511,9 +1560,10 @@
             currentActiveKey = key;
             const data = store[key];
 
-            if (!data.techPersonnel) data.techPersonnel = createInitialTechPersonnel();
-            if (!data.fieldPersonnel) data.fieldPersonnel = createInitialFieldPersonnel();
-            if (!data.equipment || data.equipment.length !== FIXED_EQUIPMENT.length) data.equipment = createInitialEquipment();
+            // Yeni yapı dinamik listeler kullanır. Eski kayıtlar varsa mevcut verileri aynen koruruz.
+            if (!Array.isArray(data.techPersonnel)) data.techPersonnel = [];
+            if (!Array.isArray(data.fieldPersonnel)) data.fieldPersonnel = [];
+            if (!Array.isArray(data.equipment)) data.equipment = [];
             if (!data.works) data.works = [];
 
             document.getElementById('input-date').value = data.date || '';
@@ -1626,9 +1676,9 @@
                     consultant: "",
                     generalNotes: "",
                     sitePhotos: [],
-                    techPersonnel: createInitialTechPersonnel(),
-                    fieldPersonnel: createInitialFieldPersonnel(),
-                    equipment: createInitialEquipment(),
+                    techPersonnel: [],
+                    fieldPersonnel: [],
+                    equipment: [],
                     works: []
                 };
             }
@@ -1702,14 +1752,26 @@
             const list = store[currentActiveKey].techPersonnel || [];
 
             list.forEach((item, index) => {
-                const isSelected = (parseFloat(item.count) || 0) > 0;
+                const count = parseFloat(item.count) || 0;
                 const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-emerald-50/50 hover:bg-emerald-50 transition" : "hover:bg-gray-50 transition";
+                tr.className = count > 0 ? "bg-emerald-50/50 hover:bg-emerald-50 transition" : "hover:bg-gray-50 transition";
                 tr.innerHTML = `
-                    <td class="p-2.5 text-center font-bold text-gray-400">${index + 1}</td>
-                    <td class="p-2.5 font-semibold text-gray-800">${escapeHtml(item.title)}</td>
-                    <td class="p-2.5">
-                        <input type="number" min="0" oninput="updateTechPersonnelField(${index}, 'count', this.value)" class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-emerald-700 focus:ring-emerald-500" value="${item.count || 0}">
+                    <td class="p-2 text-center font-bold text-gray-400">${index + 1}</td>
+                    <td class="p-2">
+                        <input type="text" oninput="updateTechPersonnelField(${index}, 'title', this.value)"
+                            class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs font-medium"
+                            placeholder="Personel / unvan"
+                            value="${escapeHtml(item.title || '')}">
+                    </td>
+                    <td class="p-2">
+                        <input type="number" min="0" oninput="updateTechPersonnelField(${index}, 'count', this.value)"
+                            class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-emerald-700 focus:ring-emerald-500"
+                            value="${item.count || 0}">
+                    </td>
+                    <td class="p-2 text-center">
+                        <button onclick="deleteTechPersonnelRow(${index})" class="text-red-500 hover:text-red-700 p-1" title="Satırı Sil">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1717,10 +1779,32 @@
             updateStatsBadges();
         }
 
+        function addTechPersonnelRow() {
+            if (!store[currentActiveKey].techPersonnel) store[currentActiveKey].techPersonnel = [];
+            store[currentActiveKey].techPersonnel.push({
+                id: Date.now(),
+                title: "",
+                count: "",
+                hours: "",
+                notes: ""
+            });
+            renderTechPersonnelFormRows();
+            const tbody = document.getElementById('form-tech-personnel-tbody');
+            const input = tbody.lastElementChild?.querySelector('input[type="text"]');
+            if (input) input.focus();
+        }
+
         function updateTechPersonnelField(index, field, value) {
             const list = store[currentActiveKey].techPersonnel;
-            list[index][field] = parseFloat(value) || 0;
+            if (!list[index]) return;
+            list[index][field] = field === 'count' ? (parseFloat(value) || 0) : value;
             updateStatsBadges();
+        }
+
+        function deleteTechPersonnelRow(index) {
+            if (!store[currentActiveKey].techPersonnel) return;
+            store[currentActiveKey].techPersonnel.splice(index, 1);
+            renderTechPersonnelFormRows();
         }
 
         function renderFieldPersonnelFormRows() {
@@ -1729,14 +1813,26 @@
             const list = store[currentActiveKey].fieldPersonnel || [];
 
             list.forEach((item, index) => {
-                const isSelected = (parseFloat(item.count) || 0) > 0;
+                const count = parseFloat(item.count) || 0;
                 const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-indigo-50/50 hover:bg-indigo-50 transition" : "hover:bg-gray-50 transition";
+                tr.className = count > 0 ? "bg-indigo-50/50 hover:bg-indigo-50 transition" : "hover:bg-gray-50 transition";
                 tr.innerHTML = `
-                    <td class="p-2.5 text-center font-bold text-gray-400">${index + 1}</td>
-                    <td class="p-2.5 font-semibold text-gray-800">${escapeHtml(item.title)}</td>
-                    <td class="p-2.5">
-                        <input type="number" min="0" oninput="updateFieldPersonnelField(${index}, 'count', this.value)" class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-indigo-700 focus:ring-indigo-500" value="${item.count || 0}">
+                    <td class="p-2 text-center font-bold text-gray-400">${index + 1}</td>
+                    <td class="p-2">
+                        <input type="text" oninput="updateFieldPersonnelField(${index}, 'title', this.value)"
+                            class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs font-medium"
+                            placeholder="Personel / ekip branşı"
+                            value="${escapeHtml(item.title || '')}">
+                    </td>
+                    <td class="p-2">
+                        <input type="number" min="0" oninput="updateFieldPersonnelField(${index}, 'count', this.value)"
+                            class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-indigo-700 focus:ring-indigo-500"
+                            value="${item.count || 0}">
+                    </td>
+                    <td class="p-2 text-center">
+                        <button onclick="deleteFieldPersonnelRow(${index})" class="text-red-500 hover:text-red-700 p-1" title="Satırı Sil">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1744,10 +1840,32 @@
             updateStatsBadges();
         }
 
+        function addFieldPersonnelRow() {
+            if (!store[currentActiveKey].fieldPersonnel) store[currentActiveKey].fieldPersonnel = [];
+            store[currentActiveKey].fieldPersonnel.push({
+                id: Date.now(),
+                title: "",
+                count: "",
+                hours: "",
+                notes: ""
+            });
+            renderFieldPersonnelFormRows();
+            const tbody = document.getElementById('form-field-personnel-tbody');
+            const input = tbody.lastElementChild?.querySelector('input[type="text"]');
+            if (input) input.focus();
+        }
+
         function updateFieldPersonnelField(index, field, value) {
             const list = store[currentActiveKey].fieldPersonnel;
-            list[index][field] = parseFloat(value) || 0;
+            if (!list[index]) return;
+            list[index][field] = field === 'count' ? (parseFloat(value) || 0) : value;
             updateStatsBadges();
+        }
+
+        function deleteFieldPersonnelRow(index) {
+            if (!store[currentActiveKey].fieldPersonnel) return;
+            store[currentActiveKey].fieldPersonnel.splice(index, 1);
+            renderFieldPersonnelFormRows();
         }
 
         function renderEquipmentFormRows() {
@@ -1756,14 +1874,26 @@
             const list = store[currentActiveKey].equipment || [];
 
             list.forEach((item, index) => {
-                const isSelected = (parseFloat(item.count) || 0) > 0;
+                const count = parseFloat(item.count) || 0;
                 const tr = document.createElement('tr');
-                tr.className = isSelected ? "bg-amber-50/50 hover:bg-amber-50 transition" : "hover:bg-gray-50 transition";
+                tr.className = count > 0 ? "bg-amber-50/50 hover:bg-amber-50 transition" : "hover:bg-gray-50 transition";
                 tr.innerHTML = `
-                    <td class="p-2.5 text-center font-bold text-gray-400">${index + 1}</td>
-                    <td class="p-2.5 font-semibold text-gray-800">${escapeHtml(item.name)}</td>
-                    <td class="p-2.5">
-                        <input type="number" min="0" oninput="updateEquipmentField(${index}, 'count', this.value)" class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-amber-700 focus:ring-amber-500" value="${item.count || 0}">
+                    <td class="p-2 text-center font-bold text-gray-400">${index + 1}</td>
+                    <td class="p-2">
+                        <input type="text" oninput="updateEquipmentField(${index}, 'name', this.value)"
+                            class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs font-medium"
+                            placeholder="Makine / nakil vasıtası"
+                            value="${escapeHtml(item.name || '')}">
+                    </td>
+                    <td class="p-2">
+                        <input type="number" min="0" oninput="updateEquipmentField(${index}, 'count', this.value)"
+                            class="w-full bg-white border border-gray-300 rounded p-1.5 text-xs text-center font-bold text-amber-700 focus:ring-amber-500"
+                            value="${item.count || 0}">
+                    </td>
+                    <td class="p-2 text-center">
+                        <button onclick="deleteEquipmentRow(${index})" class="text-red-500 hover:text-red-700 p-1" title="Satırı Sil">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1771,10 +1901,33 @@
             updateStatsBadges();
         }
 
+        function addEquipmentRow() {
+            if (!store[currentActiveKey].equipment) store[currentActiveKey].equipment = [];
+            store[currentActiveKey].equipment.push({
+                id: Date.now(),
+                name: "",
+                count: "",
+                hours: "",
+                status: "",
+                notes: ""
+            });
+            renderEquipmentFormRows();
+            const tbody = document.getElementById('form-equipment-tbody');
+            const input = tbody.lastElementChild?.querySelector('input[type="text"]');
+            if (input) input.focus();
+        }
+
         function updateEquipmentField(index, field, value) {
             const list = store[currentActiveKey].equipment;
-            list[index][field] = parseFloat(value) || 0;
+            if (!list[index]) return;
+            list[index][field] = field === 'count' ? (parseFloat(value) || 0) : value;
             updateStatsBadges();
+        }
+
+        function deleteEquipmentRow(index) {
+            if (!store[currentActiveKey].equipment) return;
+            store[currentActiveKey].equipment.splice(index, 1);
+            renderEquipmentFormRows();
         }
 
         function renderWorksFormRows() {
@@ -1809,13 +1962,16 @@
             if (!store[currentActiveKey].works) store[currentActiveKey].works = [];
             store[currentActiveKey].works.push({
                 id: Date.now(),
-                title: "Yapılan İş Kalemi",
-                location: "Saha",
-                unit: "m³",
-                quantity: "100.00",
+                title: "",
+                location: "",
+                unit: "",
+                quantity: "",
                 notes: ""
             });
             renderWorksFormRows();
+            const tbody = document.getElementById('form-works-tbody');
+            const input = tbody.lastElementChild?.querySelector('input[type="text"]');
+            if (input) input.focus();
         }
 
         function updateWorkField(index, field, value) {
@@ -1972,9 +2128,61 @@
             const container = document.getElementById('history-list-container');
             container.innerHTML = '';
 
-            Object.keys(store).forEach(key => {
-                if (key === "draft_rapor") return;
-                const item = store[key];
+            const dateFilter = document.getElementById('history-filter-date')?.value || '';
+            const nameFilter = (document.getElementById('history-filter-name')?.value || '').trim().toLocaleLowerCase('tr-TR');
+            const sortMode = document.getElementById('history-sort')?.value || 'date-desc';
+
+            let reports = Object.keys(store)
+                .filter(key => key !== "draft_rapor")
+                .map(key => ({ key, item: store[key] }));
+
+            reports = reports.filter(({ item }) => {
+                if (dateFilter) {
+                    const reportDate = normalizeReportDateForFilter(item.date);
+                    if (reportDate !== dateFilter) return false;
+                }
+
+                if (nameFilter) {
+                    const searchable = [
+                        item.sheetTitle,
+                        item.projectName,
+                        item.preparedBy,
+                        item.location,
+                        item.sheetEkip
+                    ].filter(Boolean).join(' ').toLocaleLowerCase('tr-TR');
+
+                    if (!searchable.includes(nameFilter)) return false;
+                }
+                return true;
+            });
+
+            reports.sort((a, b) => {
+                const nameA = (a.item.projectName || a.item.sheetTitle || a.item.preparedBy || '').toLocaleLowerCase('tr-TR');
+                const nameB = (b.item.projectName || b.item.sheetTitle || b.item.preparedBy || '').toLocaleLowerCase('tr-TR');
+                const dateA = getReportDateValue(a.item.date);
+                const dateB = getReportDateValue(b.item.date);
+
+                if (sortMode === 'date-asc') return dateA - dateB;
+                if (sortMode === 'name-asc') return nameA.localeCompare(nameB, 'tr');
+                if (sortMode === 'name-desc') return nameB.localeCompare(nameA, 'tr');
+                return dateB - dateA;
+            });
+
+            const resultText = document.getElementById('history-filter-result');
+            if (resultText) {
+                resultText.textContent = `${reports.length} rapor gösteriliyor${dateFilter || nameFilter ? ' (filtre uygulandı)' : ''}.`;
+            }
+
+            if (reports.length === 0) {
+                container.innerHTML = `
+                    <div class="md:col-span-2 lg:col-span-3 text-center py-10 text-gray-400">
+                        <i class="fa-solid fa-folder-open text-3xl mb-3"></i>
+                        <p class="text-sm font-semibold">Filtrelere uygun rapor bulunamadı.</p>
+                    </div>`;
+                return;
+            }
+
+            reports.forEach(({ key, item }) => {
                 const totalTech = (item.techPersonnel || []).reduce((s, p) => s + (parseFloat(p.count) || 0), 0);
                 const totalField = (item.fieldPersonnel || []).reduce((s, p) => s + (parseFloat(p.count) || 0), 0);
                 const totalEquip = (item.equipment || []).reduce((s, e) => s + (parseFloat(e.count) || 0), 0);
@@ -1983,12 +2191,14 @@
                 card.className = "bg-gray-50 rounded-xl border border-gray-200 p-5 hover:shadow-md transition flex flex-col justify-between";
                 card.innerHTML = `
                     <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md">${escapeHtml(item.sheetEkip)}</span>
+                        <div class="flex items-center justify-between mb-2 gap-2">
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md truncate">${escapeHtml(item.sheetEkip || item.projectName || 'Genel Ekip')}</span>
+                            <span class="text-[10px] text-gray-400 whitespace-nowrap">${escapeHtml(item.preparedBy || '')}</span>
                         </div>
-                        <h3 class="font-bold text-gray-800 text-sm mb-1">${escapeHtml(item.date)}</h3>
+                        <h3 class="font-bold text-gray-800 text-sm mb-1">${escapeHtml(item.date || 'Tarih belirtilmedi')}</h3>
+                        <p class="text-xs text-gray-500 mb-1"><i class="fa-solid fa-file-signature text-gray-400 mr-1"></i>${escapeHtml(item.projectName || item.sheetTitle || 'Saha Raporu')}</p>
                         <p class="text-xs text-gray-500 mb-4"><i class="fa-solid fa-location-dot text-gray-400 mr-1"></i>${escapeHtml(item.location || 'Belirtilmedi')}</p>
-                        
+
                         <div class="grid grid-cols-2 gap-2 text-[11px] text-gray-600 border-t border-gray-200 pt-3">
                             <div>Teknik Personel: <strong>${totalTech} Kişi</strong></div>
                             <div>Saha Personeli: <strong>${totalField} Kişi</strong></div>
@@ -2005,6 +2215,40 @@
                 `;
                 container.appendChild(card);
             });
+        }
+
+        function normalizeReportDateForFilter(dateValue) {
+            if (!dateValue) return '';
+            const value = String(dateValue).trim();
+
+            if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+
+            const match = value.match(/^(\d{1,2})[./-](\d{1,2})[./-](\d{4})$/);
+            if (match) {
+                return `${match[3]}-${String(match[2]).padStart(2, '0')}-${String(match[1]).padStart(2, '0')}`;
+            }
+
+            return '';
+        }
+
+        function getReportDateValue(dateValue) {
+            const normalized = normalizeReportDateForFilter(dateValue);
+            if (normalized) return new Date(`${normalized}T00:00:00`).getTime();
+
+            const timestamp = Date.parse(dateValue || '');
+            return Number.isNaN(timestamp) ? 0 : timestamp;
+        }
+
+        function clearHistoryFilters() {
+            const dateEl = document.getElementById('history-filter-date');
+            const nameEl = document.getElementById('history-filter-name');
+            const sortEl = document.getElementById('history-sort');
+
+            if (dateEl) dateEl.value = '';
+            if (nameEl) nameEl.value = '';
+            if (sortEl) sortEl.value = 'date-desc';
+
+            renderHistoryView();
         }
 
         function selectAndOpenSheet(key, targetTab) {
@@ -2301,9 +2545,9 @@
                 consultant: "",
                 generalNotes: "",
                 sitePhotos: [],
-                techPersonnel: createInitialTechPersonnel(),
-                fieldPersonnel: createInitialFieldPersonnel(),
-                equipment: createInitialEquipment(),
+                techPersonnel: [],
+                fieldPersonnel: [],
+                equipment: [],
                 works: []
             };
 
